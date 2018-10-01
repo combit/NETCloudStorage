@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2020
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "combit.ListLabel.CloudStorage.GoogleDrive", "combit.ListLabel.CloudStorage.GoogleDrive\combit.ListLabel.CloudStorage.GoogleDrive.csproj", "{10ED6110-CDEC-44EE-A35B-50A8E0ECE50C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "combit.ListLabel.CloudStorage.MicrosoftOneDrive", "combit.ListLabel.CloudStorage.MicrosoftOneDrive\combit.ListLabel.CloudStorage.MicrosoftOneDrive.csproj", "{CEFEF3C0-C2A8-41A0-B79F-3F7555B066F6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "combit.ListLabel.CloudStorage.DropBox", "combit.ListLabel.CloudStorage.DropBox\combit.ListLabel.CloudStorage.DropBox.csproj", "{8135C009-7702-42EB-8D72-4B9130B52414}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{10ED6110-CDEC-44EE-A35B-50A8E0ECE50C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10ED6110-CDEC-44EE-A35B-50A8E0ECE50C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10ED6110-CDEC-44EE-A35B-50A8E0ECE50C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10ED6110-CDEC-44EE-A35B-50A8E0ECE50C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CEFEF3C0-C2A8-41A0-B79F-3F7555B066F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CEFEF3C0-C2A8-41A0-B79F-3F7555B066F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CEFEF3C0-C2A8-41A0-B79F-3F7555B066F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CEFEF3C0-C2A8-41A0-B79F-3F7555B066F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8135C009-7702-42EB-8D72-4B9130B52414}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8135C009-7702-42EB-8D72-4B9130B52414}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8135C009-7702-42EB-8D72-4B9130B52414}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8135C009-7702-42EB-8D72-4B9130B52414}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C33F176E-C11D-4011-87A9-F53512B58A1E}
+	EndGlobalSection
+EndGlobal
