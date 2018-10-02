@@ -7,8 +7,8 @@
     <ProjectGuid>{8135C009-7702-42EB-8D72-4B9130B52414}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>combit.ListLabel24.CloudStorage.DropBox</RootNamespace>
-    <AssemblyName>combit.ListLabel24.CloudStorage.DropBox</AssemblyName>
+    <RootNamespace>combit.ListLabel24.CloudStorage.Dropbox</RootNamespace>
+    <AssemblyName>combit.ListLabel24.CloudStorage.Dropbox</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -59,7 +59,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DropBox.cs" />
+    <Compile Include="Dropbox.cs" />
     <Compile Include="LoginForm.xaml.cs">
       <DependentUpon>LoginForm.xaml</DependentUpon>
     </Compile>

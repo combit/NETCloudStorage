@@ -20,7 +20,7 @@ namespace combit.ListLabel24.CloudStorage
         /// <summary>
         /// Uploads given content to a file in the Google Drive Cloud Storage.
         /// </summary>
-        /// <param name="ll">current instance of List&Label</param>
+        /// <param name="ll">current instance of List & Label</param>
         /// <param name="uploadStream">content to upload</param>
         /// <param name="cloudFileName">destination file name in Google Drive</param>
         /// <param name="cloudPath">destination path in Google Drive root</param>
@@ -52,7 +52,7 @@ namespace combit.ListLabel24.CloudStorage
         /// <summary>
         /// Uploads given content to a file in the Google Drive Cloud Storage.
         /// </summary>
-        /// <param name="ll">current instance of List&Label</param>
+        /// <param name="ll">current instance of List & Label</param>
         /// <param name="uploadStream">content to upload</param>
         /// <param name="cloudFileName">destination file name in Google Drive</param>
         /// <param name="mimeType">MIME-Type of the file</param>
@@ -189,9 +189,9 @@ namespace combit.ListLabel24.CloudStorage
         /// <summary>
         /// Export a report using current instance of ListLabel and upload it directly to the Google Drive Cloud Storage.
         /// </summary>
-        /// <param name="ll">current instance of List&Label</param>
+        /// <param name="ll">current instance of List & Label</param>
         /// <param name="exportConfiguration">required export configuration for native ListLabel Export method</param>
-        /// <param name="cloudFileName">destination file name in DropBox</param>
+        /// <param name="cloudFileName">destination file name in Google Drive</param>
         /// <param name="cloudPath">destination path in Google Drive root</param>
         /// <param name="applicationName">Application name of your Google App</param>
         public static void Export(this ListLabel24.ListLabel ll, ExportConfiguration exportConfiguration, string cloudFileName, string cloudPath, string applicationName)

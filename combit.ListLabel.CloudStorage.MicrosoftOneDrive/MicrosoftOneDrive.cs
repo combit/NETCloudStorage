@@ -19,7 +19,7 @@ namespace combit.ListLabel24.CloudStorage
         /// <summary>
         /// Uploads given content to a file in the Microsoft OneDrive Cloud Storage.
         /// </summary>
-        /// <param name="ll">current instance of List&Label</param>
+        /// <param name="ll">current instance of List & Label</param>
         /// <param name="uploadStream">content to upload</param>
         /// <param name="cloudFileName">destination file name in Microsoft OneDrive</param>
         /// <param name="cloudPath">destination path in Microsoft OneDrive root</param>
@@ -36,13 +36,13 @@ namespace combit.ListLabel24.CloudStorage
         }
 
         /// <summary>
-        /// Uploads given content to a file in the Google Drive Cloud Storage.
+        /// Uploads given content to a file in the Microsoft OneDrive Cloud Storage.
         /// </summary>
-        /// <param name="ll">current instance of List&Label</param>
+        /// <param name="ll">current instance of List & Label</param>
         /// <param name="uploadStream">content to upload</param>
-        /// <param name="cloudFileName">destination file name in Google Drive</param>
-        /// <param name="cloudPath">destination path in Google Drive root</param>
-        /// <param name="applicationId">application Id of microsoft app</param>
+        /// <param name="cloudFileName">destination file name in Microsoft OneDrive</param>
+        /// <param name="cloudPath">destination path in Microsoft OneDrive root</param>
+        /// <param name="applicationId">application Id of Microsoft app</param>
         /// <param name="applicationSecret">application secret of your Microsoft App</param>
         /// <param name=""></param>
         /// <param name=""></param>
@@ -89,8 +89,7 @@ namespace combit.ListLabel24.CloudStorage
                 // Check that upload succeeded.
                 if (uploadedFile == null)
                 {
-                    // Retry the upload
-                    // ...
+                    throw new System.IO.IOException("Upload failed.");
                 }
             }
         }
@@ -110,7 +109,7 @@ namespace combit.ListLabel24.CloudStorage
         /// <summary>
         /// Export a report using current instance of ListLabel and upload it directly to the Microsoft OneDrive Cloud Storage.
         /// </summary>
-        /// <param name="ll">current instance of List&Label</param>
+        /// <param name="ll">current instance of List & Label</param>
         /// <param name="exportConfiguration">required export configuration for native ListLabel Export method</param>
         /// <param name="cloudFileName">destination file name in Microsoft OneDrive</param>
         /// <param name="cloudPath">destination path in Microsoft OneDrive root</param>

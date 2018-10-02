@@ -13,15 +13,15 @@ using System.Windows;
 
 namespace combit.ListLabel24.CloudStorage
 {
-    public static class DropBox
+    public static class Dropbox
     {
         /// <summary>
-        /// Uploads given content to a file in the DropBox Cloud Storage.
+        /// Uploads given content to a file in the Dropbox Cloud Storage.
         /// </summary>
-        /// <param name="ll">current instance of List&Label</param>
+        /// <param name="ll">current instance of List & Label</param>
         /// <param name="uploadStream">content to upload</param>
-        /// <param name="cloudFileName">destination file name in DropBox</param>
-        /// <param name="cloudPath">destination path in DropBox root</param>
+        /// <param name="cloudFileName">destination file name in Dropbox</param>
+        /// <param name="cloudPath">destination path in Dropbox root</param>
         /// <param name="appKey">App Key of your Dropbox App</param>
         public static void Upload(this ListLabel24.ListLabel ll, FileStream uploadStream, string cloudFileName, string cloudPath, string appKey)
         {   using (var client = new DropboxClient(GetAccessToken(appKey).Result))
@@ -36,13 +36,13 @@ namespace combit.ListLabel24.CloudStorage
         }
 
         /// <summary>
-        /// Uploads given content to a file in the DropBox Cloud Storage.
+        /// Uploads given content to a file in the Dropbox Cloud Storage.
         /// </summary>
-        /// <param name="ll">current instance of List&Label</param>
+        /// <param name="ll">current instance of List & Label</param>
         /// <param name="uploadStream">content to upload</param>
-        /// <param name="cloudFileName">destination file name in DropBox</param>
-        /// <param name="cloudPath">destination path in DropBox root</param>
-        /// <param name="accesstoken">access token for dropbox App</param>
+        /// <param name="cloudFileName">destination file name in Dropbox</param>
+        /// <param name="cloudPath">destination path in Dropbox root</param>
+        /// <param name="accesstoken">access token for Dropbox App</param>
         public static void UploadSilently(this ListLabel24.ListLabel ll, FileStream uploadStream, string cloudFileName, string cloudPath, string accesstoken)
         {
             using (var client = new DropboxClient(accesstoken))
@@ -57,13 +57,13 @@ namespace combit.ListLabel24.CloudStorage
         }
 
         /// <summary>
-        /// Uploads given content to a file in the DropBox Cloud Storage.
+        /// Uploads given content to a file in the Dropbox Cloud Storage.
         /// </summary>
-        /// <param name="ll">current instance of List&Label</param>
+        /// <param name="ll">current instance of List & Label</param>
         /// <param name="uploadStream">content to upload</param>
-        /// <param name="cloudFileName">destination file name in DropBox</param>
-        /// <param name="cloudPath">destination path in DropBox root</param>
-        /// <param name="accesstoken">access token for dropbox App</param>
+        /// <param name="cloudFileName">destination file name in Dropbox</param>
+        /// <param name="cloudPath">destination path in Dropbox root</param>
+        /// <param name="accesstoken">access token for Dropbox App</param>
         public static bool CheckCredentials(string accesstoken)
         {
             using (var client = new DropboxClient(accesstoken))
@@ -74,12 +74,12 @@ namespace combit.ListLabel24.CloudStorage
         }
 
         /// <summary>
-        /// Export a report using current instance of ListLabel and upload it directly to the DropBox Cloud Storage.
+        /// Export a report using current instance of ListLabel and upload it directly to the Dropbox Cloud Storage.
         /// </summary>
-        /// <param name="ll">current instance of List&Label</param>
+        /// <param name="ll">current instance of List & Label</param>
         /// <param name="exportConfiguration">required export configuration for native ListLabel Export method</param>
-        /// <param name="cloudFileName">destination file name in DropBox</param>
-        /// <param name="cloudPath">destination path in DropBox root</param>
+        /// <param name="cloudFileName">destination file name in Dropbox</param>
+        /// <param name="cloudPath">destination path in Dropbox root</param>
         /// <param name="appKey">App Key of your Dropbox App</param>
         public static void Export(this ListLabel24.ListLabel ll, ExportConfiguration exportConfiguration, string cloudFileName, string cloudPath, string appKey)
         {
@@ -135,7 +135,7 @@ namespace combit.ListLabel24.CloudStorage
         }
 
         /// <summary>
-        /// Gets the dropbox access token.
+        /// Gets the Dropbox access token.
         /// <para>
         /// This fetches the access token from the applications settings, if it is not found there
         /// (or if the user chooses to reset the settings) then the UI in <see cref="LoginForm"/> is

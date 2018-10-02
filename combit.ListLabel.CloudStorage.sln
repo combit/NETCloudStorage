@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "combit.ListLabel.CloudStora
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "combit.ListLabel.CloudStorage.MicrosoftOneDrive", "combit.ListLabel.CloudStorage.MicrosoftOneDrive\combit.ListLabel.CloudStorage.MicrosoftOneDrive.csproj", "{CEFEF3C0-C2A8-41A0-B79F-3F7555B066F6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "combit.ListLabel.CloudStorage.DropBox", "combit.ListLabel.CloudStorage.DropBox\combit.ListLabel.CloudStorage.DropBox.csproj", "{8135C009-7702-42EB-8D72-4B9130B52414}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "combit.ListLabel.CloudStorage.Dropbox", "combit.ListLabel.CloudStorage.Dropbox\combit.ListLabel.CloudStorage.Dropbox.csproj", "{8135C009-7702-42EB-8D72-4B9130B52414}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

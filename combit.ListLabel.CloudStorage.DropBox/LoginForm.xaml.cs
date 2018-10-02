@@ -51,7 +51,7 @@ namespace combit.ListLabel24.CloudStorage
         {
             if (!e.Uri.ToString().StartsWith(RedirectUri, StringComparison.OrdinalIgnoreCase))
             {
-                // we need to ignore all navigation that isn't to the redirect uri.
+                // We need to ignore all navigation that isn't to the redirect uri.
                 return;
             }
 
@@ -69,7 +69,7 @@ namespace combit.ListLabel24.CloudStorage
             }
             catch (ArgumentException)
             {
-                // There was an error in the URI passed to ParseTokenFragment
+                // There was an error in the URI passed to ParseTokenFragment.
             }
             finally
             {
