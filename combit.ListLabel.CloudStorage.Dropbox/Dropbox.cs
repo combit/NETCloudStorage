@@ -13,25 +13,46 @@ using System.Windows;
 
 namespace combit.ListLabel24.CloudStorage
 {
+
+    public class DropboxExportParameter
+    {
+        /// <summary>
+        /// Destination file name in Dropbox.
+        /// </summary>
+        public string CloudFileName { get; set; }
+
+        /// <summary>
+        /// Destination path in Dropbox root.
+        /// </summary>
+        public string CloudPath { get; set; }
+    }
+
+    public class DropboxUploadParameter : DropboxExportParameter
+    {
+        /// <summary>
+        /// Content to upload.
+        /// </summary>
+        public FileStream UploadStream { get; set; }
+    }
+
     public static class Dropbox
     {
         /// <summary>
         /// Uploads given content to a file in the Dropbox Cloud Storage.
         /// </summary>
         /// <param name="ll">current instance of List & Label</param>
-        /// <param name="uploadStream">content to upload</param>
-        /// <param name="cloudFileName">destination file name in Dropbox</param>
-        /// <param name="cloudPath">destination path in Dropbox root</param>
-        /// <param name="appKey">App Key of your Dropbox App</param>
-        public static void Upload(this ListLabel24.ListLabel ll, FileStream uploadStream, string cloudFileName, string cloudPath, string appKey)
-        {   using (var client = new DropboxClient(GetAccessToken(appKey).Result))
+        /// <param name="uploadParameters">requied parameters for Dropbox OAuth 2.0 upload.</param>
+        /// <param name="appkey">AppKey of your Dropbox App.</param>
+        public static void Upload(this ListLabel24.ListLabel ll, DropboxUploadParameter uploadParameters, string appKey)
+        {
+            using (var client = new DropboxClient(GetAccessToken(appKey).Result))
             {
-                if (cloudPath[0] != '/')
+                if (uploadParameters.CloudPath[0] != '/')
                 {
-                    cloudPath = string.Concat("/", cloudPath);
+                    uploadParameters.CloudPath = string.Concat("/", uploadParameters.CloudPath);
                 }
-                CreateFolder(client, cloudPath);
-                Upload(client, cloudPath, cloudFileName, uploadStream);
+                CreateFolder(client, uploadParameters.CloudPath);
+                Upload(client, uploadParameters.CloudPath, uploadParameters.CloudFileName, uploadParameters.UploadStream);
             }
         }
 
@@ -39,38 +60,32 @@ namespace combit.ListLabel24.CloudStorage
         /// Uploads given content to a file in the Dropbox Cloud Storage.
         /// </summary>
         /// <param name="ll">current instance of List & Label</param>
-        /// <param name="uploadStream">content to upload</param>
-        /// <param name="cloudFileName">destination file name in Dropbox</param>
-        /// <param name="cloudPath">destination path in Dropbox root</param>
-        /// <param name="accesstoken">access token for Dropbox App</param>
-        public static void UploadSilently(this ListLabel24.ListLabel ll, FileStream uploadStream, string cloudFileName, string cloudPath, string accesstoken)
+        /// <param name="uploadParameters">requied parameters for Dropbox OAuth 2.0 upload silently.</param>
+        /// <param name="acessToken">The current valid access token.</param>
+        public static void UploadSilently(this ListLabel24.ListLabel ll, DropboxUploadParameter uploadParameters, string accessToken)
         {
-            using (var client = new DropboxClient(accesstoken))
+            using (var client = new DropboxClient(accessToken))
             {
-                if (cloudPath[0] != '/')
+                if (uploadParameters.CloudPath[0] != '/')
                 {
-                    cloudPath = string.Concat("/", cloudPath);
+                    uploadParameters.CloudPath = string.Concat("/", uploadParameters.CloudPath);
                 }
-                CreateFolder(client, cloudPath);
-                Upload(client, cloudPath, cloudFileName, uploadStream);
+                CreateFolder(client, uploadParameters.CloudPath);
+                Upload(client, uploadParameters.CloudPath, uploadParameters.CloudFileName, uploadParameters.UploadStream);
             }
         }
 
         /// <summary>
-        /// Uploads given content to a file in the Dropbox Cloud Storage.
+        /// Check credentials to access Dropbox Cloud Storage.
         /// </summary>
-        /// <param name="ll">current instance of List & Label</param>
-        /// <param name="uploadStream">content to upload</param>
-        /// <param name="cloudFileName">destination file name in Dropbox</param>
-        /// <param name="cloudPath">destination path in Dropbox root</param>
-        /// <param name="accesstoken">access token for Dropbox App</param>
-        public static bool CheckCredentials(string accesstoken)
+        /// <param name="acessToken">The current valid access token.</param>
+        public static bool CheckCredentials(string accessToken)
         {
-            using (var client = new DropboxClient(accesstoken))
+            using (var client = new DropboxClient(accessToken))
             {
                 var user = client.Users.GetCurrentAccountAsync().Result;
-                return user.Name.DisplayName != string.Empty;                
-            }            
+                return user.Name.DisplayName != string.Empty;
+            }
         }
 
         /// <summary>
@@ -78,60 +93,62 @@ namespace combit.ListLabel24.CloudStorage
         /// </summary>
         /// <param name="ll">current instance of List & Label</param>
         /// <param name="exportConfiguration">required export configuration for native ListLabel Export method</param>
-        /// <param name="cloudFileName">destination file name in Dropbox</param>
-        /// <param name="cloudPath">destination path in Dropbox root</param>
-        /// <param name="appKey">App Key of your Dropbox App</param>
-        public static void Export(this ListLabel24.ListLabel ll, ExportConfiguration exportConfiguration, string cloudFileName, string cloudPath, string appKey)
+        /// <param name="exportParameters">requied parameters to uplaod exported report to Dropbox.</param>
+        /// <param name="appkey">AppKey of your Dropbox App.</param>
+        public static void Export(this ListLabel24.ListLabel ll, ExportConfiguration exportConfiguration, DropboxExportParameter exportParameters, string appKey)
         {
             ll.AutoShowSelectFile = false;
             ll.AutoShowPrintOptions = false;
             ll.AutoDestination = LlPrintMode.Export;
             ll.AutoProjectType = LlProject.List;
             ll.AutoBoxType = LlBoxType.None;
-            
+
             exportConfiguration.ExportOptions.Add("Export.Quiet", "1");
             switch (exportConfiguration.ExportTarget)
             {
                 case LlExportTarget.Pdf:
-                    cloudFileName += ".pdf";
+                    exportParameters.CloudFileName += ".pdf";
                     break;
                 case LlExportTarget.Rtf:
-                    cloudFileName += ".rtf";
+                    exportParameters.CloudFileName += ".rtf";
                     break;
                 case LlExportTarget.Xls:
-                    cloudFileName += ".xls";
+                    exportParameters.CloudFileName += ".xls";
                     break;
                 case LlExportTarget.Xlsx:
-                    cloudFileName += ".xlsx";
+                    exportParameters.CloudFileName += ".xlsx";
                     break;
                 case LlExportTarget.Docx:
-                    cloudFileName += ".docx";
+                    exportParameters.CloudFileName += ".docx";
                     break;
                 case LlExportTarget.Xps:
-                    cloudFileName += ".xps";
+                    exportParameters.CloudFileName += ".xps";
                     break;
                 case LlExportTarget.Mhtml:
-                    cloudFileName += ".mhtml";
+                    exportParameters.CloudFileName += ".mhtml";
                     break;
                 case LlExportTarget.Text:
-                    cloudFileName += ".txt";
+                    exportParameters.CloudFileName += ".txt";
                     break;
                 case LlExportTarget.Pptx:
-                    cloudFileName += ".pptx";
+                    exportParameters.CloudFileName += ".pptx";
                     break;
                 default:
-                    cloudFileName += ".zip";
+                    exportParameters.CloudFileName += ".zip";
                     exportConfiguration.ExportOptions.Add(LlExportOption.ExportSaveAsZip, "1");
-                    exportConfiguration.ExportOptions.Add(LlExportOption.ExportZipFile, cloudFileName);
+                    exportConfiguration.ExportOptions.Add(LlExportOption.ExportZipFile, exportParameters.CloudFileName);
                     exportConfiguration.ExportOptions.Add(LlExportOption.ExportZipPath, Path.GetDirectoryName(exportConfiguration.Path));
                     break;
             }
 
             ll.Export(exportConfiguration);
-            using (FileStream stream = System.IO.File.Open(string.Concat(Path.GetDirectoryName(exportConfiguration.Path), "\\", cloudFileName), FileMode.Open))
+            FileStream stream = System.IO.File.Open(string.Concat(Path.GetDirectoryName(exportConfiguration.Path), "\\", exportParameters.CloudFileName), FileMode.Open);
+            Upload(ll, new DropboxUploadParameter()
             {
-                Upload(ll, stream, cloudFileName, cloudPath, appKey);
-            }
+                UploadStream = stream,
+                CloudFileName = exportParameters.CloudFileName,
+                CloudPath = exportParameters.CloudPath
+            }, appKey);
         }
 
         /// <summary>
@@ -176,7 +193,7 @@ namespace combit.ListLabel24.CloudStorage
             var result = await completion.Task;
 
             accessToken = result.Item1;
-            var uid = result.Item2;            
+            var uid = result.Item2;
 
             return accessToken;
         }

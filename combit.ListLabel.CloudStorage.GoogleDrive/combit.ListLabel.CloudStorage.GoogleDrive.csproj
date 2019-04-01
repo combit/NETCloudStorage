@@ -22,7 +22,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
-    <CodeAnalysisRuleSet>..\AnalysisRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -33,11 +33,27 @@
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
+  <!-- Define the conditional references - see https://docs.microsoft.com/en-us/visualstudio/msbuild/msbuild-conditions -->
+  <Choose>
+    <!-- IF: running on the build server, reference the LL assemblies from stable/prerelease to get a consistent set of assemblies in a release/service pack
+			 (we specify no (hint-)paths here as they are set by the ReferencePath option that the build server passes to msbuild) -->
+    <When Condition="'$(BuildHost)' == 'buildserver'">
+      <ItemGroup>
+        <Reference Include="combit.ListLabel24">
+        </Reference>
+      </ItemGroup>
+    </When>
+    <!-- ELSE: For local builds, reference the projects in this solution to be able to debug the LL projects -->
+    <Otherwise>
+      <ItemGroup>
+        <ProjectReference Include="..\combit.ListLabel.NetFx40\combit.ListLabel.NetFx40.csproj">
+          <Project>{e1a9e988-ab30-4a1a-9db4-5c501a7da6fd}</Project>
+          <Name>combit.ListLabel.NetFx40</Name>
+        </ProjectReference>
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
   <ItemGroup>
-    <Reference Include="combit.ListLabel24, Version=24.0.6631.17627, Culture=neutral, PublicKeyToken=a7a30592cb4a94be, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>\\srvchk\exe\stable\LL24\net\v4.0\combit.ListLabel24.dll</HintPath>
-    </Reference>
     <Reference Include="Google.Apis, Version=1.32.2.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
       <HintPath>..\packages\Google.Apis.1.32.2\lib\net45\Google.Apis.dll</HintPath>
     </Reference>

@@ -13,6 +13,60 @@ using static Google.Apis.Drive.v3.FilesResource;
 
 namespace combit.ListLabel24.CloudStorage
 {
+    public class GoogleDriveExportParameter
+    {
+        /// <summary>
+        /// Destination file name in Google Drive.
+        /// </summary>
+        public string CloudFileName { get; set; }
+
+        /// <summary>
+        /// Destination path in Google Drive root.
+        /// </summary>
+        public string CloudPath { get; set; }
+
+        /// <summary>
+        /// Application name of your Google App.
+        /// </summary>
+        public string ApplicationName { get; set; }
+    }
+
+    public class GoogleDriveUploadParameter : GoogleDriveExportParameter
+    {
+        /// <summary>
+        /// Content to upload.
+        /// </summary>
+        public FileStream UploadStream { get; set; }
+
+        /// <summary>
+        /// MIME-Type of the file.
+        /// </summary>
+        public string MimeType { get; set; }
+    }
+
+    public class GoogleDriveCredentials
+    {
+        /// <summary>
+        /// Application name of your Google App.
+        /// </summary>
+        public string ApplicationName { get; set; }
+
+        /// <summary>
+        /// Application secret of your Google App.
+        /// </summary>
+        public string ClientId { get; set; }
+
+        /// <summary>
+        /// Application secret of your Google App.
+        /// </summary>
+        public string ClientSecret { get; set; }
+
+        /// <summary>
+        /// The current valid refresh token.
+        /// </summary>
+        public string RefreshToken { get; set; }
+    }
+
     public static class GoogleDrive
     {
         static string[] Scopes = { DriveService.Scope.Drive };
@@ -21,17 +75,14 @@ namespace combit.ListLabel24.CloudStorage
         /// Uploads given content to a file in the Google Drive Cloud Storage.
         /// </summary>
         /// <param name="ll">current instance of List & Label</param>
-        /// <param name="uploadStream">content to upload</param>
-        /// <param name="cloudFileName">destination file name in Google Drive</param>
-        /// <param name="cloudPath">destination path in Google Drive root</param>
-        /// <param name="applicationName">Application name of your Google App</param>
-        /// <param name="mimeType">MIME-Type of the file</param>
-        public static void Upload(this ListLabel24.ListLabel ll, FileStream uploadStream, string cloudFileName, string cloudPath, string applicationName, string mimeType)
+        /// <param name="uploadParameters">requied parameters for Google Drive OAuth 2.0 upload.</param>
+        /// <param name="clientSecretFilePath">The full path of client secret file.</param>
+        public static void Upload(this ListLabel24.ListLabel ll, GoogleDriveUploadParameter uploadParameters, string clientSecretFilePath)
         {
             UserCredential credential;
 
             using (var stream =
-                new FileStream("client_secret.json", FileMode.Open, FileAccess.Read))
+                new FileStream(clientSecretFilePath, FileMode.Open, FileAccess.Read))
             {
                 string credPath = System.Environment.GetFolderPath(
                     System.Environment.SpecialFolder.Personal);
@@ -44,7 +95,7 @@ namespace combit.ListLabel24.CloudStorage
                     CancellationToken.None,
                     new FileDataStore(credPath, true)).Result;
 
-                Upload2GoogleDrive(credential, uploadStream, cloudFileName, cloudPath, applicationName, mimeType);
+                Upload2GoogleDrive(credential, uploadParameters.UploadStream, uploadParameters.CloudFileName, uploadParameters.CloudPath, uploadParameters.ApplicationName, uploadParameters.MimeType);
 
             }
         }
@@ -53,34 +104,31 @@ namespace combit.ListLabel24.CloudStorage
         /// Uploads given content to a file in the Google Drive Cloud Storage.
         /// </summary>
         /// <param name="ll">current instance of List & Label</param>
-        /// <param name="uploadStream">content to upload</param>
-        /// <param name="cloudFileName">destination file name in Google Drive</param>
-        /// <param name="mimeType">MIME-Type of the file</param>
-        /// <param name="cloudPath">destination path in Google Drive root</param>
-        /// <param name="applicationName">Application name of your Google App</param>
-        public static void UploadSilently(this ListLabel24.ListLabel ll, FileStream uploadStream, string cloudFileName, string mimeType, string cloudPath, string applicationName, string clientId, string clientSecret, string refreshToken)
+        /// <param name="uploadParameters">requied parameters for Google Drive OAuth 2.0 upload silently.</param>
+        /// <param name="credentials">requied parameters for Google Drive OAuth 2.0 authentication.</param>
+        public static void UploadSilently(this ListLabel24.ListLabel ll, GoogleDriveUploadParameter uploadParameters, GoogleDriveCredentials credentials)
         {
             var flow = new GoogleAuthorizationCodeFlow(new GoogleAuthorizationCodeFlow.Initializer
             {
                 ClientSecrets = new ClientSecrets
                 {
-                    ClientId = clientId,
-                    ClientSecret = clientSecret
+                    ClientId = credentials.ClientId,
+                    ClientSecret = credentials.ClientSecret
                 },
                 Scopes = Scopes
             });
 
-            var accessToken = ListLabel24.DataProviders.GoogleDataProviderHelper.GetAuthToken(refreshToken, clientId, clientSecret);
+            var accessToken = ListLabel24.DataProviders.GoogleDataProviderHelper.GetAuthToken(credentials.RefreshToken, credentials.ClientId, credentials.ClientSecret);
 
             var token = new TokenResponse
             {
                 AccessToken = accessToken,
-                RefreshToken = refreshToken
+                RefreshToken = credentials.RefreshToken
             };
 
             var credential = new UserCredential(flow, Environment.UserName, token);
 
-            Upload2GoogleDrive(credential, uploadStream, cloudFileName, cloudPath, applicationName, mimeType);
+            Upload2GoogleDrive(credential, uploadParameters.UploadStream, uploadParameters.CloudFileName, uploadParameters.CloudPath, uploadParameters.ApplicationName, uploadParameters.MimeType);
 
         }
 
@@ -142,24 +190,28 @@ namespace combit.ListLabel24.CloudStorage
             insertRequest.Upload();
         }
 
-        public static bool CheckCredentials(string applicationName, string clientId, string clientSecret, string refreshToken)
+        /// <summary>
+        /// Check credentials to access Google Drive Cloud Storage.
+        /// </summary>
+        /// <param name="credentials">requied parameters for Google Drive OAuth 2.0 authentication.</param>
+        public static bool CheckCredentials(GoogleDriveCredentials credentials)
         {
             var flow = new GoogleAuthorizationCodeFlow(new GoogleAuthorizationCodeFlow.Initializer
             {
                 ClientSecrets = new ClientSecrets
                 {
-                    ClientId = clientId,
-                    ClientSecret = clientSecret
+                    ClientId = credentials.ClientId,
+                    ClientSecret = credentials.ClientSecret
                 },
                 Scopes = Scopes
             });
 
-            var accessToken = ListLabel24.DataProviders.GoogleDataProviderHelper.GetAuthToken(refreshToken, clientId, clientSecret);
+            var accessToken = ListLabel24.DataProviders.GoogleDataProviderHelper.GetAuthToken(credentials.RefreshToken, credentials.ClientId, credentials.ClientSecret);
 
             var token = new TokenResponse
             {
                 AccessToken = accessToken,
-                RefreshToken = refreshToken
+                RefreshToken = credentials.RefreshToken
             };
 
             var credential = new UserCredential(flow, Environment.UserName, token);
@@ -167,7 +219,7 @@ namespace combit.ListLabel24.CloudStorage
             var service = new DriveService(new BaseClientService.Initializer()
             {
                 HttpClientInitializer = credential,
-                ApplicationName = applicationName
+                ApplicationName = credentials.ApplicationName
             });
             var aboutRequest = service.About.Get();
             aboutRequest.Fields = "user";
@@ -191,10 +243,9 @@ namespace combit.ListLabel24.CloudStorage
         /// </summary>
         /// <param name="ll">current instance of List & Label</param>
         /// <param name="exportConfiguration">required export configuration for native ListLabel Export method</param>
-        /// <param name="cloudFileName">destination file name in Google Drive</param>
-        /// <param name="cloudPath">destination path in Google Drive root</param>
-        /// <param name="applicationName">Application name of your Google App</param>
-        public static void Export(this ListLabel24.ListLabel ll, ExportConfiguration exportConfiguration, string cloudFileName, string cloudPath, string applicationName)
+        /// <param name="exportParameters">requied parameters for Google Drive OAuth 2.0 upload.</param>
+        /// <param name="clientSecretFilePath">The full path of client secret file.</param>
+        public static void Export(this ListLabel24.ListLabel ll, ExportConfiguration exportConfiguration, GoogleDriveExportParameter exportParameters, string clientSecretFilePath)
         {
             ll.AutoShowSelectFile = false;
             ll.AutoShowPrintOptions = false;
@@ -206,53 +257,60 @@ namespace combit.ListLabel24.CloudStorage
             switch (exportConfiguration.ExportTarget)
             {
                 case LlExportTarget.Pdf:
-                    cloudFileName += ".pdf";
+                    exportParameters.CloudFileName += ".pdf";
                     mimeType = "application/pdf";
                     break;
                 case LlExportTarget.Rtf:
-                    cloudFileName += ".rtf";
+                    exportParameters.CloudFileName += ".rtf";
                     mimeType = "application/rtf";
                     break;
                 case LlExportTarget.Xls:
-                    cloudFileName += ".xls";
+                    exportParameters.CloudFileName += ".xls";
                     mimeType = "application/vnd.ms-excel";
                     break;
                 case LlExportTarget.Xlsx:
-                    cloudFileName += ".xlsx";
+                    exportParameters.CloudFileName += ".xlsx";
                     mimeType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
                     break;
                 case LlExportTarget.Docx:
-                    cloudFileName += ".docx";
+                    exportParameters.CloudFileName += ".docx";
                     mimeType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
                     break;
                 case LlExportTarget.Xps:
-                    cloudFileName += ".xps";
+                    exportParameters.CloudFileName += ".xps";
                     mimeType = "application/vnd.ms-xpsdocument";
                     break;
                 case LlExportTarget.Mhtml:
-                    cloudFileName += ".mhtml";
+                    exportParameters.CloudFileName += ".mhtml";
                     mimeType = "message/rfc822";
                     break;
                 case LlExportTarget.Text:
-                    cloudFileName += ".txt";
+                    exportParameters.CloudFileName += ".txt";
                     mimeType = "text/plain";
                     break;
                 case LlExportTarget.Pptx:
-                    cloudFileName += ".pptx";
+                    exportParameters.CloudFileName += ".pptx";
                     mimeType = "application/vnd.openxmlformats-officedocument.presentationml.presentation";
                     break;
                 default:
-                    cloudFileName += ".zip";
+                    exportParameters.CloudFileName += ".zip";
                     mimeType = "application/zip";
                     exportConfiguration.ExportOptions.Add(LlExportOption.ExportSaveAsZip, "1");
-                    exportConfiguration.ExportOptions.Add(LlExportOption.ExportZipFile, cloudFileName);
+                    exportConfiguration.ExportOptions.Add(LlExportOption.ExportZipFile, exportParameters.CloudFileName);
                     exportConfiguration.ExportOptions.Add(LlExportOption.ExportZipPath, Path.GetDirectoryName(exportConfiguration.Path));
                     break;
             }
 
             ll.Export(exportConfiguration);
-            FileStream stream = System.IO.File.Open(string.Concat(Path.GetDirectoryName(exportConfiguration.Path), "\\", cloudFileName), FileMode.Open);
-            Upload(ll, stream, cloudFileName, cloudPath, applicationName, mimeType);
+            FileStream stream = System.IO.File.Open(string.Concat(Path.GetDirectoryName(exportConfiguration.Path), "\\", exportParameters.CloudFileName), FileMode.Open);
+            Upload(ll, new GoogleDriveUploadParameter()
+            {
+                UploadStream = stream,
+                CloudFileName = exportParameters.CloudFileName,
+                CloudPath = exportParameters.CloudPath,
+                ApplicationName = exportParameters.ApplicationName,
+                MimeType = mimeType
+            }, clientSecretFilePath);
         }
     }
 }
