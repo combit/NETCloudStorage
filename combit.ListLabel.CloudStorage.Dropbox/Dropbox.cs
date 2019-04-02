@@ -45,7 +45,7 @@ namespace combit.ListLabel24.CloudStorage
         /// <param name="appkey">AppKey of your Dropbox App.</param>
         public static void Upload(this ListLabel24.ListLabel ll, DropboxUploadParameter uploadParameters, string appKey)
         {
-            using (var client = new DropboxClient(GetAccessToken(appKey).Result))
+            using (var client = new DropboxClient(GetAccessToken(appKey)))
             {
                 if (uploadParameters.CloudPath[0] != '/')
                 {
@@ -160,42 +160,28 @@ namespace combit.ListLabel24.CloudStorage
         /// </para>
         /// </summary>
         /// <returns>A valid access token or null.</returns>
-        private static async Task<string> GetAccessToken(string appKey)
+        private static string GetAccessToken(string appKey)
         {
-            var accessToken = string.Empty;
-
-            var completion = new TaskCompletionSource<Tuple<string, string>>();
+            Tuple<string, string> result = null;
 
             var thread = new Thread(() =>
             {
-                try
+                var app = new Application();
+                var login = new LoginForm(appKey);
+                app.Run(login);
+                if (login.Result)
                 {
-                    var app = new Application();
-                    var login = new LoginForm(appKey);
-                    app.Run(login);
-                    if (login.Result)
-                    {
-                        completion.TrySetResult(Tuple.Create(login.AccessToken, login.Uid));
-                    }
-                    else
-                    {
-                        completion.TrySetCanceled();
-                    }
+                    result = Tuple.Create(login.AccessToken, login.Uid);
                 }
-                catch (Exception e)
+                else
                 {
-                    completion.TrySetException(e);
+                    result = null;
                 }
             });
             thread.SetApartmentState(ApartmentState.STA);
             thread.Start();
-
-            var result = await completion.Task;
-
-            accessToken = result.Item1;
-            var uid = result.Item2;
-
-            return accessToken;
+            thread.Join();
+            return result?.Item1;
         }
 
         /// <summary>
@@ -240,57 +226,6 @@ namespace combit.ListLabel24.CloudStorage
             using (stream)
             {
                 client.Files.UploadAsync(folder + "/" + fileName, WriteMode.Overwrite.Instance, body: stream).Wait();
-            }
-        }
-
-        /// <summary>
-        /// Uploads a big file in chunk. The is very helpful for uploading large file in slow network condition
-        /// and also enable capability to track upload progerss.
-        /// </summary>
-        /// <param name="client">The Dropbox client.</param>
-        /// <param name="folder">The folder to upload the file.</param>
-        /// <param name="fileName">The name of the file.</param>
-        /// <returns></returns>
-        private static async Task ChunkUpload(DropboxClient client, string folder, string fileName, FileStream stream)
-        {
-            // Chunk size is 128KB.
-            const int chunkSize = 128 * 1024;
-
-            using (stream)
-            {
-                int numChunks = (int)Math.Ceiling((double)stream.Length / chunkSize);
-
-                byte[] buffer = new byte[chunkSize];
-                string sessionId = null;
-
-                for (var idx = 0; idx < numChunks; idx++)
-                {
-                    var byteRead = stream.Read(buffer, 0, chunkSize);
-
-                    using (MemoryStream memStream = new MemoryStream(buffer, 0, byteRead))
-                    {
-                        if (idx == 0)
-                        {
-                            var result = await client.Files.UploadSessionStartAsync(body: memStream);
-                            sessionId = result.SessionId;
-                        }
-
-                        else
-                        {
-                            UploadSessionCursor cursor = new UploadSessionCursor(sessionId, (ulong)(chunkSize * idx));
-
-                            if (idx == numChunks - 1)
-                            {
-                                await client.Files.UploadSessionFinishAsync(cursor, new CommitInfo(folder + "/" + fileName), memStream);
-                            }
-
-                            else
-                            {
-                                await client.Files.UploadSessionAppendV2Async(cursor, body: memStream);
-                            }
-                        }
-                    }
-                }
             }
         }
     }
