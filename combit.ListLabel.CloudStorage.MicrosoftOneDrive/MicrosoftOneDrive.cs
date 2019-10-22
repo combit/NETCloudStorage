@@ -1,4 +1,5 @@
-﻿using Microsoft.Graph;
+﻿using combit.ListLabel25;
+using Microsoft.Graph;
 using Microsoft.Identity.Client;
 using Newtonsoft.Json.Linq;
 using System;
@@ -11,7 +12,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace combit.ListLabel24.CloudStorage
+namespace combit.ListLabel25.CloudStorage
 {
     public class MicrosoftOneDriveExportParameter
     {
@@ -74,7 +75,7 @@ namespace combit.ListLabel24.CloudStorage
         /// </summary>
         /// <param name="ll">current instance of List & Label</param>
         /// <param name="uploadParameters">requied parameters for Microsoft OneDrive OAuth 2.0 upload.</param>
-        public static async void Upload(this ListLabel24.ListLabel ll, MicrosoftOneDriveUploadParameter uploadParameters)
+        public static async void Upload(this ListLabel25.ListLabel ll, MicrosoftOneDriveUploadParameter uploadParameters)
         {
             var graphClient = AuthenticationHelper.GetAuthenticatedClient(uploadParameters.ApplicationId);
 
@@ -97,7 +98,7 @@ namespace combit.ListLabel24.CloudStorage
         /// <param name="ll">current instance of List & Label</param>
         /// <param name="uploadParameters">requied parameters for Microsoft OneDrive OAuth 2.0 upload silently.</param>
         /// <param name="credentials">requied parameters for Microsoft OneDrive OAuth 2.0 authentication.</param>
-        public static void UploadSilently(this ListLabel24.ListLabel ll, MicrosoftOneDriveUploadParameter uploadParameters, MicrosoftOneDriveCredentials credentials)
+        public static void UploadSilently(this ListLabel25.ListLabel ll, MicrosoftOneDriveUploadParameter uploadParameters, MicrosoftOneDriveCredentials credentials)
         {
             // Initialize the GraphServiceClient.
             GraphServiceClient graphClient = SDKHelper.GetAuthenticatedClient(credentials.RefreshToken, uploadParameters.ApplicationId, credentials.ApplicationSecret, credentials.Scope, credentials.RedirectUri);
@@ -166,7 +167,7 @@ namespace combit.ListLabel24.CloudStorage
         /// <param name="ll">current instance of List & Label</param>
         /// <param name="exportConfiguration">required export configuration for native ListLabel Export method</param>
         /// <param name="exportParameters">requied parameters for Microsoft OneDrive OAuth 2.0 upload.</param>
-        public static void Export(this ListLabel24.ListLabel ll, ExportConfiguration exportConfiguration, MicrosoftOneDriveExportParameter exportParameters)
+        public static void Export(this ListLabel25.ListLabel ll, ExportConfiguration exportConfiguration, MicrosoftOneDriveExportParameter exportParameters)
         {
             ll.AutoShowSelectFile = false;
             ll.AutoShowPrintOptions = false;

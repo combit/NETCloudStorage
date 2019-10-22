@@ -16,7 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace combit.ListLabel24.CloudStorage
+namespace combit.ListLabel25.CloudStorage
 {
     /// <summary>
     /// Interaction logic for UserControl1.xaml
