@@ -117,32 +117,8 @@ namespace combit.ListLabel25.CloudStorage
             int maxChunkSize = 320 * 1024; // 320 KB - Change this to your chunk size. 5MB is the default.
             ChunkedUploadProvider provider = new ChunkedUploadProvider(uploadSession, graphClient, fileStream, maxChunkSize);
 
-            // Set up the chunk request necessities.
-            IEnumerable<UploadChunkRequest> chunkRequests = provider.GetUploadChunkRequests();
-            byte[] readBuffer = new byte[maxChunkSize];
-            List<Exception> trackedExceptions = new List<Exception>();
-            DriveItem uploadedFile = null;
-
-            // Upload the chunks.
-            foreach (var request in chunkRequests)
-            {
-                // Do your updates here: update progress bar, etc.
-                // ...
-                // Send chunk request
-                UploadChunkResult result = provider.GetChunkRequestResponseAsync(request, readBuffer, trackedExceptions).Result;
-
-                if (result.UploadSucceeded)
-                {
-                    uploadedFile = result.ItemResponse;
-                }
-
-
-                // Check that upload succeeded.
-                if (uploadedFile == null)
-                {
-                    throw new System.IO.IOException("Upload failed.");
-                }
-            }
+            //Replace own implementation in favour of UploadAsync-Helper (https://github.com/OneDrive/onedrive-sdk-csharp/blob/master/docs/chunked-uploads.md)
+            _ = provider.UploadAsync().Result;
         }
 
         /// <summary>
