@@ -11,7 +11,7 @@ using System.IO;
 using System.Threading;
 using static Google.Apis.Drive.v3.FilesResource;
 
-namespace combit.ListLabel25.CloudStorage
+namespace combit.Reporting.CloudStorage
 {
     public class GoogleDriveExportParameter
     {
@@ -77,7 +77,7 @@ namespace combit.ListLabel25.CloudStorage
         /// <param name="ll">current instance of List & Label</param>
         /// <param name="uploadParameters">requied parameters for Google Drive OAuth 2.0 upload.</param>
         /// <param name="clientSecretFilePath">The full path of client secret file.</param>
-        public static void Upload(this ListLabel25.ListLabel ll, GoogleDriveUploadParameter uploadParameters, string clientSecretFilePath)
+        public static void Upload(this Reporting.ListLabel ll, GoogleDriveUploadParameter uploadParameters, string clientSecretFilePath)
         {
             UserCredential credential;
 
@@ -106,7 +106,7 @@ namespace combit.ListLabel25.CloudStorage
         /// <param name="ll">current instance of List & Label</param>
         /// <param name="uploadParameters">requied parameters for Google Drive OAuth 2.0 upload silently.</param>
         /// <param name="credentials">requied parameters for Google Drive OAuth 2.0 authentication.</param>
-        public static void UploadSilently(this ListLabel25.ListLabel ll, GoogleDriveUploadParameter uploadParameters, GoogleDriveCredentials credentials)
+        public static void UploadSilently(this Reporting.ListLabel ll, GoogleDriveUploadParameter uploadParameters, GoogleDriveCredentials credentials)
         {
             var flow = new GoogleAuthorizationCodeFlow(new GoogleAuthorizationCodeFlow.Initializer
             {
@@ -118,7 +118,7 @@ namespace combit.ListLabel25.CloudStorage
                 Scopes = Scopes
             });
 
-            var accessToken = ListLabel25.DataProviders.GoogleDataProviderHelper.GetAuthToken(credentials.RefreshToken, credentials.ClientId, credentials.ClientSecret);
+            var accessToken = Reporting.DataProviders.GoogleDataProviderHelper.GetAuthToken(credentials.RefreshToken, credentials.ClientId, credentials.ClientSecret);
 
             var token = new TokenResponse
             {
@@ -206,7 +206,7 @@ namespace combit.ListLabel25.CloudStorage
                 Scopes = Scopes
             });
 
-            var accessToken = ListLabel25.DataProviders.GoogleDataProviderHelper.GetAuthToken(credentials.RefreshToken, credentials.ClientId, credentials.ClientSecret);
+            var accessToken = Reporting.DataProviders.GoogleDataProviderHelper.GetAuthToken(credentials.RefreshToken, credentials.ClientId, credentials.ClientSecret);
 
             var token = new TokenResponse
             {
@@ -245,7 +245,7 @@ namespace combit.ListLabel25.CloudStorage
         /// <param name="exportConfiguration">required export configuration for native ListLabel Export method</param>
         /// <param name="exportParameters">requied parameters for Google Drive OAuth 2.0 upload.</param>
         /// <param name="clientSecretFilePath">The full path of client secret file.</param>
-        public static void Export(this ListLabel25.ListLabel ll, ExportConfiguration exportConfiguration, GoogleDriveExportParameter exportParameters, string clientSecretFilePath)
+        public static void Export(this Reporting.ListLabel ll, ExportConfiguration exportConfiguration, GoogleDriveExportParameter exportParameters, string clientSecretFilePath)
         {
             ll.AutoShowSelectFile = false;
             ll.AutoShowPrintOptions = false;

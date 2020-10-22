@@ -1,11 +1,13 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-// General Information about an assembly is controlled through the following 
-// set of attributes. Change these attribute values to modify the information
-// associated with an assembly.
-[assembly: AssemblyTitle("combit List & Label 25 Microsoft OneDrive Uploader")]
+[assembly: AssemblyTitle("combit List & Label 26 Microsoft OneDrive Uploader (.NET Framework 4)")]
+
+[assembly: ComVisible(false)]
+[assembly: Guid("cefef3c0-c2a8-41a0-b79f-3f7555b066f6")]
+
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("combit GmbH, www.combit.net")]
@@ -13,24 +15,5 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCopyright("Copyright © combit GmbH")]
 [assembly: AssemblyTrademark("combit and List & Label are registered trademarks of combit GmbH, Germany, www.combit.net")]
 [assembly: AssemblyCulture("")]
-
-// Setting ComVisible to false makes the types in this assembly not visible 
-// to COM components.  If you need to access a type in this assembly from 
-// COM, set the ComVisible attribute to true on that type.
-[assembly: ComVisible(false)]
-
-// The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("cefef3c0-c2a8-41a0-b79f-3f7555b066f6")]
-
-// Version information for an assembly consists of the following four values:
-//
-//      Major Version
-//      Minor Version 
-//      Build Number
-//      Revision
-//
-// You can specify all the values or you can default the Build and Revision Numbers 
-// by using the '*' as shown below:
-// [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("25.2.*")]
-[assembly: AssemblyFileVersion("25.2.0.0")]
+[assembly: AssemblyVersion("26.0.*")]
+[assembly: AssemblyFileVersion("26.0.0.0")]

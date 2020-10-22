@@ -1,4 +1,4 @@
-﻿using combit.ListLabel25;
+﻿using combit.Reporting;
 using Microsoft.Graph;
 using Microsoft.Identity.Client;
 using Newtonsoft.Json.Linq;
@@ -12,7 +12,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace combit.ListLabel25.CloudStorage
+namespace combit.Reporting.CloudStorage
 {
     public class MicrosoftOneDriveExportParameter
     {
@@ -75,7 +75,7 @@ namespace combit.ListLabel25.CloudStorage
         /// </summary>
         /// <param name="ll">current instance of List & Label</param>
         /// <param name="uploadParameters">requied parameters for Microsoft OneDrive OAuth 2.0 upload.</param>
-        public static async void Upload(this ListLabel25.ListLabel ll, MicrosoftOneDriveUploadParameter uploadParameters)
+        public static async void Upload(this Reporting.ListLabel ll, MicrosoftOneDriveUploadParameter uploadParameters)
         {
             var graphClient = AuthenticationHelper.GetAuthenticatedClient(uploadParameters.ApplicationId);
 
@@ -98,7 +98,7 @@ namespace combit.ListLabel25.CloudStorage
         /// <param name="ll">current instance of List & Label</param>
         /// <param name="uploadParameters">requied parameters for Microsoft OneDrive OAuth 2.0 upload silently.</param>
         /// <param name="credentials">requied parameters for Microsoft OneDrive OAuth 2.0 authentication.</param>
-        public static void UploadSilently(this ListLabel25.ListLabel ll, MicrosoftOneDriveUploadParameter uploadParameters, MicrosoftOneDriveCredentials credentials)
+        public static void UploadSilently(this Reporting.ListLabel ll, MicrosoftOneDriveUploadParameter uploadParameters, MicrosoftOneDriveCredentials credentials)
         {
             // Initialize the GraphServiceClient.
             GraphServiceClient graphClient = SDKHelper.GetAuthenticatedClient(credentials.RefreshToken, uploadParameters.ApplicationId, credentials.ApplicationSecret, credentials.Scope, credentials.RedirectUri);
@@ -143,7 +143,7 @@ namespace combit.ListLabel25.CloudStorage
         /// <param name="ll">current instance of List & Label</param>
         /// <param name="exportConfiguration">required export configuration for native ListLabel Export method</param>
         /// <param name="exportParameters">requied parameters for Microsoft OneDrive OAuth 2.0 upload.</param>
-        public static void Export(this ListLabel25.ListLabel ll, ExportConfiguration exportConfiguration, MicrosoftOneDriveExportParameter exportParameters)
+        public static void Export(this Reporting.ListLabel ll, ExportConfiguration exportConfiguration, MicrosoftOneDriveExportParameter exportParameters)
         {
             ll.AutoShowSelectFile = false;
             ll.AutoShowPrintOptions = false;
@@ -306,11 +306,10 @@ namespace combit.ListLabel25.CloudStorage
         internal static async Task<string> GetTokenForUserAsync(string clientId)
         {
             AuthenticationResult authResult;
-            PublicClientApplication IdentityClientApp = new PublicClientApplication(clientId);
-
+            IPublicClientApplication IdentityClientApp = PublicClientApplicationBuilder.Create(clientId).Build();
             try
             {
-                authResult = await IdentityClientApp.AcquireTokenSilentAsync(Scopes, IdentityClientApp.Users.First());
+                authResult = await IdentityClientApp.AcquireTokenSilent(Scopes, (await IdentityClientApp.GetAccountsAsync()).First()).ExecuteAsync();
                 TokenForUser = authResult.AccessToken;
             }
 
@@ -318,8 +317,7 @@ namespace combit.ListLabel25.CloudStorage
             {
                 if (TokenForUser == null || Expiration <= DateTimeOffset.UtcNow.AddMinutes(5))
                 {
-                    authResult = await IdentityClientApp.AcquireTokenAsync(Scopes);
-
+                    authResult = await IdentityClientApp.AcquireTokenInteractive(Scopes).ExecuteAsync();
                     TokenForUser = authResult.AccessToken;
                     Expiration = authResult.ExpiresOn;
                 }
@@ -331,13 +329,14 @@ namespace combit.ListLabel25.CloudStorage
         /// <summary>
         /// Signs the user out of the service.
         /// </summary>
-        internal static void SignOut(string clientId)
+        internal async static void SignOut(string clientId)
         {
-            PublicClientApplication IdentityClientApp = new PublicClientApplication(clientId);
-            foreach (var user in IdentityClientApp.Users)
+            IPublicClientApplication IdentityClientApp = PublicClientApplicationBuilder.Create(clientId).Build();
+            foreach (var user in await IdentityClientApp.GetAccountsAsync())
             {
-                IdentityClientApp.Remove(user);
+                await IdentityClientApp.RemoveAsync(user);
             }
+
             graphClient = null;
             TokenForUser = null;
 

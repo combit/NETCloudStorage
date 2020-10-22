@@ -1,4 +1,4 @@
-﻿using combit.ListLabel25;
+﻿using combit.Reporting;
 using Dropbox.Api;
 using Dropbox.Api.Files;
 using System;
@@ -11,7 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace combit.ListLabel25.CloudStorage
+namespace combit.Reporting.CloudStorage
 {
 
     public class DropboxExportParameter
@@ -43,11 +43,11 @@ namespace combit.ListLabel25.CloudStorage
         /// <param name="ll">current instance of List & Label</param>
         /// <param name="uploadParameters">requied parameters for Dropbox OAuth 2.0 upload.</param>
         /// <param name="appkey">AppKey of your Dropbox App.</param>
-        public static void Upload(this ListLabel25.ListLabel ll, DropboxUploadParameter uploadParameters, string appKey)
+        public static void Upload(this Reporting.ListLabel ll, DropboxUploadParameter uploadParameters, string appKey)
         {
             using (var client = new DropboxClient(GetAccessToken(appKey).Result))
             {
-                if (uploadParameters.CloudPath[0] != '/')
+                if (string.IsNullOrEmpty(uploadParameters.CloudPath) || uploadParameters.CloudPath[0] != '/') //add leading slash
                 {
                     uploadParameters.CloudPath = string.Concat("/", uploadParameters.CloudPath);
                 }
@@ -62,11 +62,11 @@ namespace combit.ListLabel25.CloudStorage
         /// <param name="ll">current instance of List & Label</param>
         /// <param name="uploadParameters">requied parameters for Dropbox OAuth 2.0 upload silently.</param>
         /// <param name="acessToken">The current valid access token.</param>
-        public static void UploadSilently(this ListLabel25.ListLabel ll, DropboxUploadParameter uploadParameters, string accessToken)
+        public static void UploadSilently(this Reporting.ListLabel ll, DropboxUploadParameter uploadParameters, string accessToken)
         {
             using (var client = new DropboxClient(accessToken))
             {
-                if (uploadParameters.CloudPath[0] != '/')
+                if (string.IsNullOrEmpty(uploadParameters.CloudPath) || uploadParameters.CloudPath[0] != '/') //add leading slash
                 {
                     uploadParameters.CloudPath = string.Concat("/", uploadParameters.CloudPath);
                 }
@@ -95,7 +95,7 @@ namespace combit.ListLabel25.CloudStorage
         /// <param name="exportConfiguration">required export configuration for native ListLabel Export method</param>
         /// <param name="exportParameters">requied parameters to uplaod exported report to Dropbox.</param>
         /// <param name="appkey">AppKey of your Dropbox App.</param>
-        public static void Export(this ListLabel25.ListLabel ll, ExportConfiguration exportConfiguration, DropboxExportParameter exportParameters, string appKey)
+        public static void Export(this Reporting.ListLabel ll, ExportConfiguration exportConfiguration, DropboxExportParameter exportParameters, string appKey)
         {
             ll.AutoShowSelectFile = false;
             ll.AutoShowPrintOptions = false;
