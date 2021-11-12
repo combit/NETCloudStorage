@@ -7,8 +7,8 @@
     <ProjectGuid>{10ED6110-CDEC-44EE-A35B-50A8E0ECE50C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>combit.ListLabel26.CloudStorage.GoogleDrive</RootNamespace>
-    <AssemblyName>combit.ListLabel26.CloudStorage.GoogleDrive</AssemblyName>
+    <RootNamespace>combit.ListLabel27.CloudStorage.GoogleDrive</RootNamespace>
+    <AssemblyName>combit.ListLabel27.CloudStorage.GoogleDrive</AssemblyName>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -84,7 +84,7 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-	<Reference Include="combit.ListLabel26">
+	<Reference Include="combit.ListLabel27">
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GoogleDrive.cs" />

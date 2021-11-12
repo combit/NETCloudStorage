@@ -7,8 +7,8 @@
     <ProjectGuid>{CEFEF3C0-C2A8-41A0-B79F-3F7555B066F6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>combit.ListLabel26.CloudStorage.MicrosoftOneDrive</RootNamespace>
-    <AssemblyName>combit.ListLabel26.CloudStorage.MicrosoftOneDrive</AssemblyName>
+    <RootNamespace>combit.ListLabel27.CloudStorage.MicrosoftOneDrive</RootNamespace>
+    <AssemblyName>combit.ListLabel27.CloudStorage.MicrosoftOneDrive</AssemblyName>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -101,7 +101,7 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-	<Reference Include="combit.ListLabel26">
+	<Reference Include="combit.ListLabel27">
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MicrosoftOneDrive.cs" />
