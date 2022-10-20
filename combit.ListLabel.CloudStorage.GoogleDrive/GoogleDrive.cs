@@ -69,7 +69,7 @@ namespace combit.Reporting.CloudStorage
 
     public static class GoogleDrive
     {
-        static string[] Scopes = { DriveService.Scope.Drive };
+        static readonly string[] Scopes = { DriveService.Scope.Drive };
 
         /// <summary>
         /// Uploads given content to a file in the Google Drive Cloud Storage.
@@ -89,11 +89,12 @@ namespace combit.Reporting.CloudStorage
                 credPath = Path.Combine(credPath, ".credentials/drive-dotnet-quickstart.json");
 
                 credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
-                    GoogleClientSecrets.Load(stream).Secrets,
-                    Scopes,
-                    "user2",
-                    CancellationToken.None,
-                    new FileDataStore(credPath, true)).Result;
+
+                    GoogleClientSecrets.FromStream(stream).Secrets,
+                        Scopes,
+                        "user2",
+                        CancellationToken.None,
+                        new FileDataStore(credPath, true)).Result;
 
                 Upload2GoogleDrive(credential, uploadParameters.UploadStream, uploadParameters.CloudFileName, uploadParameters.CloudPath, uploadParameters.ApplicationName, uploadParameters.MimeType);
 

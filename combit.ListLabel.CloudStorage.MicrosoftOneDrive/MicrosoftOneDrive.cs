@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
@@ -104,21 +105,24 @@ namespace combit.Reporting.CloudStorage
             GraphServiceClient graphClient = SDKHelper.GetAuthenticatedClient(credentials.RefreshToken, uploadParameters.ApplicationId, credentials.ApplicationSecret, credentials.Scope, credentials.RedirectUri);
 
             // Add the file.
-            UploadLargeFile(graphClient, uploadParameters.UploadStream, string.Concat(uploadParameters.CloudPath, "/", uploadParameters.CloudFileName));
+            UploadLargeFile(graphClient, uploadParameters.UploadStream, string.Concat(uploadParameters.CloudPath, "/", uploadParameters.CloudFileName)).Wait();
         }
 
         // Uploads a large file to the current user's root directory.
-        private static void UploadLargeFile(GraphServiceClient graphClient, Stream fileStream, string fileName)
+        private static async Task UploadLargeFile(GraphServiceClient graphClient, Stream fileStream, string fileName)
         {
             // Create the upload session. The access token is no longer required as you have session established for the upload.  
             // POST /v1.0/drive/root:/UploadLargeFile.bmp:/microsoft.graph.createUploadSession
-            Microsoft.Graph.UploadSession uploadSession = graphClient.Me.Drive.Root.ItemWithPath(fileName).CreateUploadSession().Request().PostAsync().Result;
+            var uploadSession = await graphClient.Me.Drive.Root
+                .ItemWithPath(fileName)
+                .CreateUploadSession()
+                .Request()
+                .PostAsync();
 
-            int maxChunkSize = 320 * 1024; // 320 KB - Change this to your chunk size. 5MB is the default.
-            ChunkedUploadProvider provider = new ChunkedUploadProvider(uploadSession, graphClient, fileStream, maxChunkSize);
+            int maxSliceSize = 320 * 1024; // 320 KB - Change this to your chunk size. 5MB is the default.
+            var fileUploadTask = new LargeFileUploadTask<DriveItem>(uploadSession, fileStream, maxSliceSize);
 
-            //Replace own implementation in favour of UploadAsync-Helper (https://github.com/OneDrive/onedrive-sdk-csharp/blob/master/docs/chunked-uploads.md)
-            _ = provider.UploadAsync().Result;
+            _ = await fileUploadTask.UploadAsync();
         }
 
         /// <summary>
@@ -228,32 +232,28 @@ namespace combit.Reporting.CloudStorage
         internal static string GetAuthToken(string refreshToken, string clientID, string clientSecret, string scope, string redirectUri)
         {
             string url = @"https://login.microsoftonline.com/common/oauth2/v2.0/token";
-            string data = @"grant_type=refresh_token&client_id=" + clientID.Trim() + "&client_secret=" + clientSecret.Trim() + "&refresh_token=" + refreshToken.Trim() + "&scope=user.read files.readwrite&redirect_uri=" + redirectUri;
-            string result = GetPostResult(url, data, "application/x-www-form-urlencoded");
+            //Ticket #57341 for postdata we need a instance of FormUrlEncodedContent for HttpClient
+            var parameter = new Dictionary<string, string>
+            {
+                { "grant_type", "refresh_token" },
+                { "client_id", clientID.Trim() },
+                { "client_secret", clientSecret.Trim() },
+                { "refresh_token", refreshToken.Trim() },
+                { "scope", "user.read files.readwrite" },
+                { "redirect_uri", redirectUri },
+            };
+            FormUrlEncodedContent content = new FormUrlEncodedContent(parameter);
+
+            string result = GetPostResult(url, content, "application/x-www-form-urlencoded");
             JObject o = JObject.Parse(result);
             return o["access_token"].ToString();
         }
 
-        internal static string GetPostResult(string url, string data, string contentType)
+        internal static string GetPostResult(string url, FormUrlEncodedContent content, string contentType)
         {
-            HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create(new Uri(url));
-            req.Method = "POST";
-            req.ContentType = contentType;
-
-            ASCIIEncoding encoding = new ASCIIEncoding();
-            byte[] dataBytes = encoding.GetBytes(data);
-            req.ContentLength = dataBytes.Length;
-            using (Stream stream = req.GetRequestStream())
-            {
-                stream.Write(dataBytes, 0, dataBytes.Length);
-            }
-
-            HttpWebResponse response = (HttpWebResponse)req.GetResponse();
-            Stream str = response.GetResponseStream();
-            using (StreamReader reader = new StreamReader(str))
-            {
-                return reader.ReadToEnd();
-            }
+            HttpClient client = new HttpClient();
+            HttpResponseMessage response = client.PostAsync(url, content).Result;
+            return response.Content.ReadAsStringAsync().Result;
         }
 
     }

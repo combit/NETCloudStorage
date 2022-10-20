@@ -7,8 +7,8 @@
     <ProjectGuid>{8135C009-7702-42EB-8D72-4B9130B52414}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>combit.ListLabel27.CloudStorage.Dropbox</RootNamespace>
-    <AssemblyName>combit.ListLabel27.CloudStorage.Dropbox</AssemblyName>
+    <RootNamespace>combit.ListLabel28.CloudStorage.Dropbox</RootNamespace>
+    <AssemblyName>combit.ListLabel28.CloudStorage.Dropbox</AssemblyName>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -34,8 +34,8 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Dropbox.Api, Version=5.0.0.0, Culture=neutral, PublicKeyToken=310f0e82fbb45d01, processorArchitecture=MSIL">
-      <HintPath>..\packages\Dropbox.Api.5.0.0\lib\net45\Dropbox.Api.dll</HintPath>
+    <Reference Include="Dropbox.Api, Version=6.32.0.0, Culture=neutral, PublicKeyToken=310f0e82fbb45d01, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dropbox.Api.6.32.0\lib\netstandard2.0\Dropbox.Api.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -53,7 +53,7 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
-	<Reference Include="combit.ListLabel27">
+	<Reference Include="combit.ListLabel28">
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Dropbox.cs" />

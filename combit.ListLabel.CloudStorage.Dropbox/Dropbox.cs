@@ -245,7 +245,7 @@ namespace combit.Reporting.CloudStorage
 
         /// <summary>
         /// Uploads a big file in chunk. The is very helpful for uploading large file in slow network condition
-        /// and also enable capability to track upload progerss.
+        /// and also enable capability to track upload progress.
         /// </summary>
         /// <param name="client">The Dropbox client.</param>
         /// <param name="folder">The folder to upload the file.</param>
@@ -281,7 +281,7 @@ namespace combit.Reporting.CloudStorage
 
                             if (idx == numChunks - 1)
                             {
-                                await client.Files.UploadSessionFinishAsync(cursor, new CommitInfo(folder + "/" + fileName), memStream);
+                                await client.Files.UploadSessionFinishAsync(cursor, new CommitInfo(folder + "/" + fileName), null, memStream);
                             }
 
                             else
