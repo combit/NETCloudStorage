@@ -1,0 +1,1 @@
+Due to the usage of the external dependency of NuGet Package 'DecaTec PortableWebDavLibrary 1.1.9' which is based on .NET Standard 1.1, projects targeting .NET Framework 4 are currently only able to communicate with servers that allow the usage of HTTP up to version 1.1. For using HTTP in version 2 the project needs to use .NET 6 or higher.

@@ -1,5 +1,5 @@
 # List & Label .NET Cloud Storage Providers
-This repository contains the sources to connect to the cloud storage services Dropbox, Google Drive and Microsoft OneDrive with the **List & Label Reporting Tool**. Please note that they require additional files from their respective projects via NuGet.
+This repository contains the sources to connect to the cloud storage services Dropbox, Google Drive, Microsoft OneDrive and WebDAV with the **List & Label Reporting Tool**. Please note that they require additional files from their respective projects via NuGet.
 
 Depending on the cloud service, you need to provide authentication information like Application-ID, Secret, Refresh-Token etc. Refer to the documentation of the corresponding NuGet package/cloud service provider for further information.
 
