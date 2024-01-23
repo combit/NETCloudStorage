@@ -12,7 +12,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4A08FCC7-0F01-4338-BFB0-739CFA3471B1}"
 	ProjectSection(SolutionItems) = preProject
 		AnalysisRules.ruleset = AnalysisRules.ruleset
-		common\SharedAssemblyInfo.cs = common\SharedAssemblyInfo.cs
+		common\GlobalAssemblyInfo.cs = common\GlobalAssemblyInfo.cs
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".NET Framework 4", ".NET Framework 4", "{8094D3E0-C5FF-4980-B4C2-B8B8CFEC2D8A}"

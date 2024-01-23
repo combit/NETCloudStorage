@@ -19,7 +19,7 @@
   <ItemGroup>
     <Compile Include="..\..\combit.ListLabel.CloudStorage.Dropbox\Dropbox.cs" Link="Dropbox.cs" />
     <Compile Include="..\..\combit.ListLabel.CloudStorage.Dropbox\LoginForm.xaml.cs" Link="LoginForm.xaml.cs" />
-    <Compile Include="..\..\common\SharedAssemblyInfo.cs" Link="Properties\SharedAssemblyInfo.cs" />
+    <Compile Include="..\..\common\GlobalAssemblyInfo.cs" Link="Properties\GlobalAssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="combit.ListLabel29" Version="29.0.0" />

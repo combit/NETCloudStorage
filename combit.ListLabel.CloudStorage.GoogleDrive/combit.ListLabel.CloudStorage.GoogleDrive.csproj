@@ -111,7 +111,7 @@
   <ItemGroup>
     <Compile Include="GoogleDrive.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="..\common\SharedAssemblyInfo.cs" Link="Properties\SharedAssemblyInfo.cs" />
+    <Compile Include="..\common\GlobalAssemblyInfo.cs" Link="Properties\GlobalAssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

@@ -17,7 +17,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\..\combit.ListLabel.CloudStorage.WebDAV\WebDAV.cs" Link="WebDAV.cs" />
-    <Compile Include="..\..\common\SharedAssemblyInfo.cs" Link="Properties\SharedAssemblyInfo.cs" />
+    <Compile Include="..\..\common\GlobalAssemblyInfo.cs" Link="Properties\GlobalAssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="combit.ListLabel29" Version="29.0.0" />
