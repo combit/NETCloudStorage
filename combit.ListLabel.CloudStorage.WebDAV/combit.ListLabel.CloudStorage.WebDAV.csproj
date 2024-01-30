@@ -36,8 +36,8 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="combit.ListLabel29, Version=29.0.8685.14274, Culture=neutral, PublicKeyToken=a7a30592cb4a94be, processorArchitecture=MSIL">
-      <HintPath>..\packages\combit.ListLabel29.29.0.0\lib\net48\combit.ListLabel29.dll</HintPath>
+    <Reference Include="combit.ListLabel29, Version=29.1.0.0, Culture=neutral, PublicKeyToken=a7a30592cb4a94be, processorArchitecture=MSIL">
+      <HintPath>..\packages\combit.ListLabel29.29.1.0\lib\net48\combit.ListLabel29.dll</HintPath>
     </Reference>
     <Reference Include="DecaTec.WebDav, Version=1.1.9.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\PortableWebDavLibrary.1.1.9\lib\netstandard1.1\DecaTec.WebDav.dll</HintPath>

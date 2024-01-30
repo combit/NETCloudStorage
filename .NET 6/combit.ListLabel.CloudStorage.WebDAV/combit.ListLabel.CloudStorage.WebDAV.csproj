@@ -20,7 +20,7 @@
     <Compile Include="..\..\common\GlobalAssemblyInfo.cs" Link="Properties\GlobalAssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="combit.ListLabel29" Version="29.0.0" />
+    <PackageReference Include="combit.ListLabel29" Version="29.1.0" />
     <PackageReference Include="PortableWebDavLibrary" Version="1.1.9" />
   </ItemGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
