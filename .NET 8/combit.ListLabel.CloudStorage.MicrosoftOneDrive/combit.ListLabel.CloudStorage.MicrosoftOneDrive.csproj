@@ -22,7 +22,7 @@
   <ItemGroup>
     <PackageReference Include="combit.ListLabel29" Version="29.1.0" />
     <PackageReference Include="Microsoft.Graph" Version="4.54.0" />
-    <PackageReference Include="Microsoft.Identity.Client" Version="4.59.0" />
+    <PackageReference Include="Microsoft.Identity.Client" Version="4.61.3" />
     <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="6.35.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
