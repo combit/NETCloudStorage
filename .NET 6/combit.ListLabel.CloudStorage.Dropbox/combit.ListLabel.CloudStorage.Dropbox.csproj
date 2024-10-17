@@ -3,7 +3,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>combit.Reporting.CloudStorage.Dropbox</RootNamespace>
-    <AssemblyName>combit.ListLabel29.CloudStorage.Dropbox</AssemblyName>
+    <AssemblyName>combit.ListLabel30.CloudStorage.Dropbox</AssemblyName>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <TargetFramework>net6.0-windows7.0</TargetFramework>
@@ -22,8 +22,8 @@
     <Compile Include="..\..\common\GlobalAssemblyInfo.cs" Link="Properties\GlobalAssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="combit.ListLabel29" Version="29.1.0" />
-    <PackageReference Include="Dropbox.Api" Version="6.37.0" />
+    <PackageReference Include="combit.ListLabel30" Version="30.0.0" />
+    <PackageReference Include="Dropbox.Api" Version="7.0.0" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="..\..\combit.ListLabel.CloudStorage.Dropbox\LoginForm.xaml" Link="LoginForm.xaml">

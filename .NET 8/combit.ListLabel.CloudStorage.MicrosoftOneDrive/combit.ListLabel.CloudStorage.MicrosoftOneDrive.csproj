@@ -4,7 +4,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>combit.Reporting.CloudStorage.MicrosoftOneDrive</RootNamespace>
-    <AssemblyName>combit.ListLabel29.CloudStorage.MicrosoftOneDrive</AssemblyName>
+    <AssemblyName>combit.ListLabel30.CloudStorage.MicrosoftOneDrive</AssemblyName>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
@@ -20,11 +20,11 @@
     <Compile Include="..\..\common\GlobalAssemblyInfo.cs" Link="Properties\GlobalAssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="combit.ListLabel29" Version="29.1.0" />
+    <PackageReference Include="combit.ListLabel30" Version="30.0.0" />
     <PackageReference Include="Microsoft.Graph" Version="4.54.0" />
     <PackageReference Include="Microsoft.Identity.Client" Version="4.61.3" />
     <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="6.35.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
