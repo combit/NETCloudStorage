@@ -20,8 +20,9 @@
     <Compile Include="..\..\common\GlobalAssemblyInfo.cs" Link="Properties\GlobalAssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="combit.ListLabel30" Version="30.0.0" />
+    <PackageReference Include="combit.ListLabel30" Version="30.1.0" />
     <PackageReference Include="PortableWebDavLibrary" Version="1.1.9" />
+	<PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />
   </ItemGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
