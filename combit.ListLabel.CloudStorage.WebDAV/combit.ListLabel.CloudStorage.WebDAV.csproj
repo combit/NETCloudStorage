@@ -7,8 +7,8 @@
     <ProjectGuid>{4DDFE3AC-FF9C-4545-BE99-CF7BD9D42991}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>combit.ListLabel30.CloudStorage.WebDAV</RootNamespace>
-    <AssemblyName>combit.ListLabel30.CloudStorage.WebDAV</AssemblyName>
+    <RootNamespace>combit.Reporting.CloudStorage.WebDAV</RootNamespace>
+    <AssemblyName>combit.ListLabel31.CloudStorage.WebDAV</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -56,8 +56,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="combit.ListLabel30">
-      <Version>30.1.0</Version>
+    <PackageReference Include="combit.ListLabel31">
+      <Version>31.0.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.Platforms">
       <Version>7.0.4</Version>

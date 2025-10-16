@@ -2,7 +2,7 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("combit List & Label 31 Microsoft OneDrive Uploader (.NET 8)")]
+[assembly: AssemblyTitle("combit List & Label 31 Microsoft Graph Uploader for OneDrive and SharePoint (.NET 10)")]
 [assembly: System.Runtime.Versioning.SupportedOSPlatform("windows")]
 [assembly: ComVisible(false)]
-[assembly: Guid("cefef3c0-c2a8-41a0-b79f-3f7555b066f6")]
+[assembly: Guid("ba9e25c4-c1a5-4658-bce1-e696f106c7b9")]

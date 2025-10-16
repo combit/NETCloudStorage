@@ -2,8 +2,7 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("combit List & Label 31 Google Drive Uploader (.NET 8)")]
-
-[assembly: ComVisible(false)]
+[assembly: AssemblyTitle("combit List & Label 31 Dropbox Uploader (.NET 10)")]
 [assembly: System.Runtime.Versioning.SupportedOSPlatform("windows")]
-[assembly: Guid("10ed6110-cdec-44ee-a35b-50a8e0ece50c")]
+[assembly: ComVisible(false)]
+[assembly: Guid("8135c009-7702-42eb-8d72-4b9130b52414")]

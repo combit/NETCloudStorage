@@ -2,7 +2,7 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("combit List & Label 30 Microsoft OneDrive Uploader (.NET 6)")]
+[assembly: AssemblyTitle("combit List & Label 31 Amazon S3 Uploader (.NET 8)")]
 [assembly: System.Runtime.Versioning.SupportedOSPlatform("windows")]
 [assembly: ComVisible(false)]
-[assembly: Guid("cefef3c0-c2a8-41a0-b79f-3f7555b066f6")]
+[assembly: Guid("CCF18FC2-7FA8-4443-B39A-C3F18E2D47BA")]

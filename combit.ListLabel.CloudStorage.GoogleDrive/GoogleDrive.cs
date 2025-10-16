@@ -303,7 +303,7 @@ namespace combit.Reporting.CloudStorage
             }
 
             ll.Export(exportConfiguration);
-            FileStream stream = System.IO.File.Open(string.Concat(Path.GetDirectoryName(exportConfiguration.Path), "\\", exportParameters.CloudFileName), FileMode.Open);
+            FileStream stream = System.IO.File.Open(Path.Combine(Path.GetDirectoryName(exportConfiguration.Path), exportParameters.CloudFileName), FileMode.Open);
             Upload(ll, new GoogleDriveUploadParameter()
             {
                 UploadStream = stream,

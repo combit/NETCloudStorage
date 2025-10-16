@@ -146,7 +146,7 @@ namespace combit.Reporting.CloudStorage
 
             ll.Export(exportConfiguration);
             //Push the FileStream to the webDavUploadParameters
-            webDavUploadParameters.FileStream = System.IO.File.Open(string.Concat(Path.GetDirectoryName(exportConfiguration.Path), "\\", webDavUploadParameters.DestinationFileName), FileMode.Open);
+            webDavUploadParameters.FileStream = System.IO.File.Open(Path.Combine(Path.GetDirectoryName(exportConfiguration.Path), webDavUploadParameters.DestinationFileName), FileMode.Open);
             await Upload(ll, webDavUploadParameters);
         }
 

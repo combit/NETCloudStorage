@@ -2,7 +2,7 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("combit List & Label 30 WebDAV Uploader (.NET Framework 4)")]
+[assembly: AssemblyTitle("combit List & Label 31 WebDAV Uploader (.NET Framework 4)")]
 
 [assembly: ComVisible(false)]
 [assembly: Guid("4ddfe3ac-ff9c-4545-be99-cf7bd9d42991")]

@@ -1,10 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net6.0-windows7.0</TargetFramework>
+    <TargetFramework>net10.0-windows7.0</TargetFramework>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>combit.Reporting.CloudStorage.MicrosoftOneDrive</RootNamespace>
-    <AssemblyName>combit.ListLabel30.CloudStorage.MicrosoftOneDrive</AssemblyName>
+    <RootNamespace>combit.Reporting.CloudStorage.WebDAV</RootNamespace>
+    <AssemblyName>combit.ListLabel31.CloudStorage.WebDAV</AssemblyName>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
@@ -16,17 +16,12 @@
     <DefineConstants>TRACE;NET_BUILD</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="..\..\combit.ListLabel.CloudStorage.MicrosoftOneDrive\MicrosoftOneDrive.cs" Link="MicrosoftOneDrive.cs" />
+    <Compile Include="..\..\combit.ListLabel.CloudStorage.WebDAV\WebDAV.cs" Link="WebDAV.cs" />
     <Compile Include="..\..\common\GlobalAssemblyInfo.cs" Link="Properties\GlobalAssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="combit.ListLabel30" Version="30.1.0" />
-    <PackageReference Include="Microsoft.Graph" Version="4.54.0" />
-    <PackageReference Include="Microsoft.Identity.Client" Version="4.67.1" />
-    <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="8.3.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.3.0" />
-    <PackageReference Include="System.Text.Json" Version="8.0.5" />
+    <PackageReference Include="combit.ListLabel31" Version="31.0.0" />
+    <PackageReference Include="PortableWebDavLibrary" Version="1.1.9" />
   </ItemGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

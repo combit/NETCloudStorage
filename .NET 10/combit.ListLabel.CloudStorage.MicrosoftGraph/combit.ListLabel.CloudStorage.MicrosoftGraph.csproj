@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+     <TargetFramework>net10.0-windows7.0</TargetFramework>
+     <ImplicitUsings>enable</ImplicitUsings>
+	 <AssemblyName>combit.ListLabel31.CloudStorage.MicrosoftGraph</AssemblyName>
+     <RootNamespace>combit.Reporting.CloudStorage.MicrosoftGraph</RootNamespace>
+     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+	 <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+	 <OutputType>Library</OutputType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+    <DefineConstants>$(DefineConstants);NET_BUILD</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+    <DefineConstants>$(DefineConstants);NET_BUILD</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\..\combit.ListLabel.CloudStorage.MicrosoftGraph\GraphUploader.cs" Link="GraphUploader.cs" />
+    <Compile Include="..\..\combit.ListLabel.CloudStorage.MicrosoftGraph\MicrosoftOneDrive.cs" Link="MicrosoftOneDrive.cs" />
+    <Compile Include="..\..\combit.ListLabel.CloudStorage.MicrosoftGraph\MicrosoftSharePoint.cs" Link="MicrosoftSharePoint.cs" />
+    <Compile Include="..\..\common\GlobalAssemblyInfo.cs" Link="Properties\GlobalAssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Azure.Identity" Version="1.15.0" />
+    <PackageReference Include="combit.ListLabel31" Version="31.0.0" />
+    <PackageReference Include="Microsoft.Graph" Version="5.89.0" />
+  </ItemGroup>
+</Project>
