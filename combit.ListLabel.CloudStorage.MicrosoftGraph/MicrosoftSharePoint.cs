@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace combit.ListLabel31.CloudStorage.MicrosoftGraph
+namespace combit.Reporting.CloudStorage
 {
     public static class MicrosoftSharePoint
     {

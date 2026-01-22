@@ -7,7 +7,7 @@
     <ProjectGuid>{647EF10D-23B9-43E8-A664-B3AAFE139B55}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>combit.ListLabel31.CloudStorage.MicrosoftGraph</RootNamespace>
+    <RootNamespace>combit.Reporting.CloudStorage.MicrosoftGraph</RootNamespace>
     <AssemblyName>combit.ListLabel31.CloudStorage.MicrosoftGraph</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

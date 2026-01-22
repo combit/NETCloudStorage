@@ -9,7 +9,7 @@ using System.IO;
 using System.Threading.Tasks;
 using DriveUpload = Microsoft.Graph.Drives.Item.Items.Item.CreateUploadSession;
 
-namespace combit.ListLabel31.CloudStorage.MicrosoftGraph
+namespace combit.Reporting.CloudStorage
 {
     /// <summary>
     /// Contains various credentials used to authenticate with Microsoft Entra ID.
