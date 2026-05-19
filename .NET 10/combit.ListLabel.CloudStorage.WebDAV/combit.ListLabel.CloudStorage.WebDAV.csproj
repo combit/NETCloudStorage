@@ -22,6 +22,7 @@
   <ItemGroup>
     <PackageReference Include="combit.ListLabel31" Version="31.0.0" />
     <PackageReference Include="PortableWebDavLibrary" Version="1.1.9" />
+	<PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />
   </ItemGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

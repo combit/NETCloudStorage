@@ -25,6 +25,7 @@
 	<ItemGroup>
 		<PackageReference Include="Azure.Identity" Version="1.15.0" />
 		<PackageReference Include="combit.ListLabel31" Version="31.0.0" />
+		<PackageReference Include="Microsoft.Bcl.Memory" Version="9.0.15" />
 		<PackageReference Include="Microsoft.Graph" Version="5.89.0" />
 		<PackageReference Include="System.Text.Json" Version="9.0.8" />
 	</ItemGroup>

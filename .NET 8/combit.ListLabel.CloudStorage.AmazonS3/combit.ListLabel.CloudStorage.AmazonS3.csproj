@@ -22,7 +22,7 @@
     <Compile Include="..\..\common\GlobalAssemblyInfo.cs" Link="Properties\GlobalAssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="AWSSDK.S3" Version="4.0.6.4" />
+    <PackageReference Include="AWSSDK.S3" Version="4.0.22.1" />
     <PackageReference Include="combit.ListLabel31" Version="31.0.0" />
   </ItemGroup>
 </Project>
