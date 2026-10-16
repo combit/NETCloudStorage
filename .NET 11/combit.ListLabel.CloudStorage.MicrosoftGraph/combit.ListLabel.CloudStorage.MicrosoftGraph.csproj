@@ -1,18 +1,19 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFramework>net8.0-windows7.0</TargetFramework>
+		<TargetFramework>net11.0-windows7.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<AssemblyName>combit.ListLabel31.CloudStorage.MicrosoftGraph</AssemblyName>
+		<AssemblyName>combit.ListLabel32.CloudStorage.MicrosoftGraph</AssemblyName>
 		<RootNamespace>combit.Reporting.CloudStorage.MicrosoftGraph</RootNamespace>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 	    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
 		<OutputType>Library</OutputType>
+		<Configurations>Debug;Release_NET11</Configurations>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<GenerateAssemblyInfo>False</GenerateAssemblyInfo>
 		<DefineConstants>$(DefineConstants);NET_BUILD</DefineConstants>
 	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_NET11|AnyCPU'">
 		<GenerateAssemblyInfo>False</GenerateAssemblyInfo>
 		<DefineConstants>$(DefineConstants);NET_BUILD</DefineConstants>
 	</PropertyGroup>
@@ -23,10 +24,8 @@
 		<Compile Include="..\..\common\GlobalAssemblyInfo.cs" Link="Properties\GlobalAssemblyInfo.cs" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Azure.Identity" Version="1.15.0" />
-		<PackageReference Include="combit.ListLabel31" Version="31.0.0" />
-		<PackageReference Include="Microsoft.Bcl.Memory" Version="9.0.15" />
-		<PackageReference Include="Microsoft.Graph" Version="5.89.0" />
-		<PackageReference Include="System.Text.Json" Version="9.0.8" />
+		<PackageReference Include="Azure.Identity" Version="1.21.0" />
+		<PackageReference Include="combit.ListLabel32" Version="32.0.0" />
+		<PackageReference Include="Microsoft.Graph" Version="6.5.0" />
 	</ItemGroup>
 </Project>

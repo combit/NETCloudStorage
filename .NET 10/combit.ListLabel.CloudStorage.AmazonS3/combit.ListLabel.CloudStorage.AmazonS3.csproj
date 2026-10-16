@@ -5,15 +5,16 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <ImplicitUsings>enable</ImplicitUsings>
 	<RootNamespace>combit.Reporting.CloudStorage.AmazonS3</RootNamespace>
-    <AssemblyName>combit.ListLabel31.CloudStorage.AmazonS3</AssemblyName>
+    <AssemblyName>combit.ListLabel32.CloudStorage.AmazonS3</AssemblyName>
 	<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 	<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+	<Configurations>Debug;Release_NET10</Configurations>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
     <DefineConstants>$(DefineConstants);NET_BUILD</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_NET10|AnyCPU'">
     <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
     <DefineConstants>$(DefineConstants);NET_BUILD</DefineConstants>
   </PropertyGroup>
@@ -22,7 +23,7 @@
     <Compile Include="..\..\common\GlobalAssemblyInfo.cs" Link="Properties\GlobalAssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="AWSSDK.S3" Version="4.0.22.1" />
-    <PackageReference Include="combit.ListLabel31" Version="31.0.0" />
+    <PackageReference Include="AWSSDK.S3" Version="4.0.102" />
+    <PackageReference Include="combit.ListLabel32" Version="32.0.0" />
   </ItemGroup>
 </Project>

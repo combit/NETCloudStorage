@@ -1,19 +1,20 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net8.0-windows7.0</TargetFramework>
+    <TargetFramework>net11.0-windows7.0</TargetFramework>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>combit.Reporting.CloudStorage.AmazonS3</RootNamespace>
-    <AssemblyName>combit.ListLabel31.CloudStorage.AmazonS3</AssemblyName>
+    <AssemblyName>combit.ListLabel32.CloudStorage.AmazonS3</AssemblyName>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 	<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <ImplicitUsings>enable</ImplicitUsings>
+    <Configurations>Debug;Release_NET11</Configurations>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
     <DefineConstants>$(DefineConstants);NET_BUILD</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_NET11|AnyCPU'">
     <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
     <DefineConstants>$(DefineConstants);NET_BUILD</DefineConstants>
   </PropertyGroup>
@@ -22,7 +23,7 @@
     <Compile Include="..\..\common\GlobalAssemblyInfo.cs" Link="Properties\GlobalAssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="AWSSDK.S3" Version="4.0.22.1" />
-    <PackageReference Include="combit.ListLabel31" Version="31.0.0" />
+    <PackageReference Include="AWSSDK.S3" Version="4.0.102" />
+    <PackageReference Include="combit.ListLabel32" Version="32.0.0" />
   </ItemGroup>
 </Project>

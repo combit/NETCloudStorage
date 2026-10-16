@@ -3,17 +3,18 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>combit.Reporting.CloudStorage.Dropbox</RootNamespace>
-    <AssemblyName>combit.ListLabel31.CloudStorage.Dropbox</AssemblyName>
+    <AssemblyName>combit.ListLabel32.CloudStorage.Dropbox</AssemblyName>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <TargetFramework>net8.0-windows7.0</TargetFramework>
+    <TargetFramework>net11.0-windows7.0</TargetFramework>
     <UseWpf>true</UseWpf>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <Configurations>Debug;Release_NET11</Configurations>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DefineConstants>$(DefineConstants)TRACE;NET_BUILD</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_NET11|AnyCPU'">
     <DefineConstants>$(DefineConstants)TRACE;NET_BUILD</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
@@ -22,19 +23,12 @@
     <Compile Include="..\..\common\GlobalAssemblyInfo.cs" Link="Properties\GlobalAssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="combit.ListLabel31" Version="31.0.0" />
-    <PackageReference Include="Dropbox.Api" Version="7.0.0" />
+    <PackageReference Include="combit.ListLabel32" Version="32.0.0" />
+    <PackageReference Include="Dropbox.Api" Version="7.2.0" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="..\..\combit.ListLabel.CloudStorage.Dropbox\LoginForm.xaml" Link="LoginForm.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
--->
 </Project>

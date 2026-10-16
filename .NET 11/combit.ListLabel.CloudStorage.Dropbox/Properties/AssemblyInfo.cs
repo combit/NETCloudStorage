@@ -1,8 +1,8 @@
-using System.Reflection;
+﻿using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("combit List & Label 31 WebDAV Uploader (.NET 8)")]
+[assembly: AssemblyTitle("combit List & Label 32 Dropbox Uploader (.NET 11)")]
 [assembly: System.Runtime.Versioning.SupportedOSPlatform("windows")]
 [assembly: ComVisible(false)]
-[assembly: Guid("1f7a74af-ff7a-4b42-8644-46bbc448ad1d")]
+[assembly: Guid("8135c009-7702-42eb-8d72-4b9130b52414")]

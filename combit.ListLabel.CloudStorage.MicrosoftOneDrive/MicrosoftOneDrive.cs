@@ -1,5 +1,7 @@
-﻿using combit.Reporting;
+using Azure.Core;
+using combit.Reporting;
 using Microsoft.Graph;
+using Microsoft.Graph.Models;
 using Microsoft.Identity.Client;
 using Newtonsoft.Json.Linq;
 using System;
@@ -7,11 +9,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using DriveUpload = Microsoft.Graph.Drives.Item.Items.Item.CreateUploadSession;
 
 namespace combit.Reporting.CloudStorage
 {
@@ -82,14 +83,15 @@ namespace combit.Reporting.CloudStorage
 
             if (graphClient != null)
             {
-                var user = await graphClient.Me.Request().GetAsync();
-                var uploadedItem = await graphClient
-                                             .Drive
-                                             .Root
-                                             .ItemWithPath($"{uploadParameters.CloudPath}/{uploadParameters.CloudFileName}")
-                                             .Content
-                                             .Request()
-                                             .PutAsync<DriveItem>(uploadParameters.UploadStream);
+                _ = await graphClient.Me.GetAsync();
+
+                var drive = await graphClient.Me.Drive.GetAsync();
+                _ = await graphClient
+                              .Drives[drive.Id]
+                              .Items["root"]
+                              .ItemWithPath($"{uploadParameters.CloudPath}/{uploadParameters.CloudFileName}")
+                              .Content
+                              .PutAsync(uploadParameters.UploadStream);
             }
         }
 
@@ -111,16 +113,19 @@ namespace combit.Reporting.CloudStorage
         // Uploads a large file to the current user's root directory.
         private static async Task UploadLargeFile(GraphServiceClient graphClient, Stream fileStream, string fileName)
         {
-            // Create the upload session. The access token is no longer required as you have session established for the upload.  
-            // POST /v1.0/drive/root:/UploadLargeFile.bmp:/microsoft.graph.createUploadSession
-            var uploadSession = await graphClient.Me.Drive.Root
+            var uploadSessionRequestBody = new DriveUpload.CreateUploadSessionPostRequestBody();
+
+            var drive = await graphClient.Me.Drive.GetAsync();
+            var uploadSession = await graphClient
+                .Drives[drive.Id]
+                .Items["root"]
                 .ItemWithPath(fileName)
-                .CreateUploadSession()
-                .Request()
-                .PostAsync();
+                .CreateUploadSession
+                .PostAsync(uploadSessionRequestBody);
 
             int maxSliceSize = 320 * 1024; // 320 KB - Change this to your chunk size. 5MB is the default.
-            var fileUploadTask = new LargeFileUploadTask<DriveItem>(uploadSession, fileStream, maxSliceSize);
+
+            var fileUploadTask = new LargeFileUploadTask<DriveItem>(uploadSession, fileStream, maxSliceSize, graphClient.RequestAdapter);
 
             _ = await fileUploadTask.UploadAsync();
         }
@@ -131,11 +136,10 @@ namespace combit.Reporting.CloudStorage
         /// <param name="credentials">requied parameters for Microsoft OneDrive OAuth 2.0 authentication.</param>
         public static bool CheckCredentials(MicrosoftOneDriveCredentials credentials)
         {
-            // Initialize the GraphServiceClient.
             GraphServiceClient graphClient = SDKHelper.GetAuthenticatedClient(credentials.RefreshToken, credentials.ApplicationId, credentials.ApplicationSecret, credentials.Scope, credentials.RedirectUri);
             if (graphClient != null)
             {
-                var user = graphClient.Me.Request().GetAsync();
+                var user = graphClient.Me.GetAsync();
                 return user.Result.DisplayName != string.Empty;
             }
             return false;
@@ -204,28 +208,42 @@ namespace combit.Reporting.CloudStorage
         }
     }
 
+    /// <summary>
+    /// Adapts an existing token-acquisition delegate to an <see cref="TokenCredential"/> so it can be handed to
+    /// <see cref="GraphServiceClient"/>, mirroring the authentication approach used by the Microsoft Graph provider.
+    /// The original token acquisition logic (MSAL / refresh token) is preserved unchanged; this only replaces the
+    /// removed DelegateAuthenticationProvider plumbing from the classic Graph SDK.
+    /// </summary>
+    internal sealed class DelegateTokenCredential : TokenCredential
+    {
+        private readonly Func<CancellationToken, Task<string>> _getToken;
+
+        internal DelegateTokenCredential(Func<CancellationToken, Task<string>> getToken)
+        {
+            _getToken = getToken;
+        }
+
+        public override async ValueTask<AccessToken> GetTokenAsync(TokenRequestContext requestContext, CancellationToken cancellationToken)
+        {
+            string token = await _getToken(cancellationToken).ConfigureAwait(false);
+            return new AccessToken(token, DateTimeOffset.UtcNow.AddMinutes(5));
+        }
+
+        public override AccessToken GetToken(TokenRequestContext requestContext, CancellationToken cancellationToken)
+        {
+            return GetTokenAsync(requestContext, cancellationToken).AsTask().GetAwaiter().GetResult();
+        }
+    }
+
     internal class SDKHelper
     {
-
         // Get an authenticated Microsoft Graph Service client.
         internal static GraphServiceClient GetAuthenticatedClient(string refreshToken, string clientID, string clientSecret, string scope, string redirectUri)
         {
-            GraphServiceClient graphClient = new GraphServiceClient(
-                new DelegateAuthenticationProvider(
-                    requestMessage =>
-                    {
-                        string accessToken = GetAuthToken(refreshToken, clientID, clientSecret, scope, redirectUri); //await SampleAuthProvider.Instance.GetUserAccessTokenAsync();
+            var credential = new DelegateTokenCredential(
+                _ => Task.FromResult(GetAuthToken(refreshToken, clientID, clientSecret, scope, redirectUri)));
 
-                        // Append the access token to the request.
-                        requestMessage.Headers.Authorization = new AuthenticationHeaderValue("bearer", accessToken);
-
-                        // Get event times in the current time zone.
-                        requestMessage.Headers.Add("Prefer", "outlook.timezone=\"" + TimeZoneInfo.Local.Id + "\"");
-
-                        // This header has been added to identify our sample in the Microsoft Graph service. If extracting this code for your project please remove.
-                        //requestMessage.Headers.Add("SampleID", "aspnet-snippets-sample");
-                        return Task.FromResult(0);
-                    }));
+            GraphServiceClient graphClient = new GraphServiceClient(credential);
             return graphClient;
         }
 
@@ -260,8 +278,6 @@ namespace combit.Reporting.CloudStorage
 
     internal class AuthenticationHelper
     {
-        // The Client ID is used by the application to uniquely identify itself to the v2.0 authentication endpoint.
-        //static string clientId = App.Current.Resources["ida:ClientID"].ToString();
         internal static string[] Scopes = { "User.Read", "Files.ReadWrite" };
 
         internal static string TokenForUser = null;
@@ -269,7 +285,7 @@ namespace combit.Reporting.CloudStorage
 
         private static GraphServiceClient graphClient = null;
 
-        // Get an access token for the given context and resourceId. An attempt is first made to 
+        // Get an access token for the given context and resourceId. An attempt is first made to
         // acquire the token silently. If that fails, then we try to acquire the token by prompting the user.
         internal static GraphServiceClient GetAuthenticatedClient(string clientId)
         {
@@ -278,14 +294,8 @@ namespace combit.Reporting.CloudStorage
                 // Create Microsoft Graph client.
                 try
                 {
-                    graphClient = new GraphServiceClient(
-                        "https://graph.microsoft.com/v1.0",
-                        new DelegateAuthenticationProvider(
-                            async (requestMessage) =>
-                            {
-                                var token = await GetTokenForUserAsync(clientId);
-                                requestMessage.Headers.Authorization = new AuthenticationHeaderValue("bearer", token);
-                            }));
+                    var credential = new DelegateTokenCredential(_ => GetTokenForUserAsync(clientId));
+                    graphClient = new GraphServiceClient(credential, Scopes);
                     return graphClient;
                 }
 

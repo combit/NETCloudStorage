@@ -10,11 +10,11 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCopyright("Copyright © combit GmbH")]
 [assembly: AssemblyTrademark("combit and List & Label are registered trademarks of combit GmbH, Germany, www.combit.net")]
 [assembly: AssemblyCulture("")]
-[assembly: AssemblyFileVersion("31.1.0.0")]
+[assembly: AssemblyFileVersion("32.0.0.0")]
 
 #if NET_BUILD
-    [assembly: AssemblyVersion("31.1")]
+    [assembly: AssemblyVersion("32.0")]
     [assembly: System.Runtime.Versioning.SupportedOSPlatform("windows")]
 #else // .NET Framework 4
-    [assembly: AssemblyVersion("31.1.*")]
+    [assembly: AssemblyVersion("32.0.*")]
 #endif

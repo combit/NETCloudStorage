@@ -1,8 +1,7 @@
-﻿using Azure.Identity;
+using Azure.Identity;
 using combit.Reporting;
 using Microsoft.Graph;
 using Microsoft.Graph.Models;
-using Microsoft.Kiota.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -57,7 +56,7 @@ namespace combit.Reporting.CloudStorage
         public string CloudFileName { get; set; }
 
         /// <summary>
-        /// Destination path in MicrosoftOneDrive and MicrosoftSharePoint. 
+        /// Destination path in MicrosoftOneDrive and MicrosoftSharePoint.
         /// Do not include your Drive name here, as it will generate another folder with your drives name.
         /// </summary>
         public string CloudPath { get; set; }
@@ -116,7 +115,6 @@ namespace combit.Reporting.CloudStorage
         internal async Task Upload(MicrosoftCredentials credentials, MicrosoftSharePointUploadParameters sharePointUploadParameters = null, MicrosoftOneDriveUploadParameters oneDriveUploadParameters = null)
         {
             var client = await GetAuthenticatedClient(credentials);
-            RequestInformation requestInfo = null;
 
             if (client == null)
             {
@@ -128,34 +126,35 @@ namespace combit.Reporting.CloudStorage
                 throw new InvalidOperationException("Missing required upload parameter instance.");
             }
 
+            string driveId = null;
+            string itemPath = null;
+            Stream stream = null;
+
             if (oneDriveUploadParameters != null)
             {
                 var drive = await client.Me.Drive.GetAsync();
-                requestInfo = client
-                                .Drives[drive.Id]
-                                .Root
-                                .ItemWithPath(Path.Combine(oneDriveUploadParameters.CloudPath, oneDriveUploadParameters.CloudFileName))
-                                .Content
-                                .ToPutRequestInformation(oneDriveUploadParameters.UploadStream);
+                driveId = drive.Id;
+                itemPath = Path.Combine(oneDriveUploadParameters.CloudPath, oneDriveUploadParameters.CloudFileName);
+                stream = oneDriveUploadParameters.UploadStream;
             }
 
             if (sharePointUploadParameters != null)
             {
                 if (sharePointUploadParameters.CloudPath == null)
                 {
-                    sharePointUploadParameters.CloudPath = "";
+                    sharePointUploadParameters.CloudPath = String.Empty;
                 }
-                requestInfo = client
-                                .Drives[sharePointUploadParameters.DriveId]
-                                .Root
-                                .ItemWithPath(Path.Combine(sharePointUploadParameters.CloudPath, sharePointUploadParameters.CloudFileName))
-                                .Content
-                                .ToPutRequestInformation(sharePointUploadParameters.UploadStream);
+                driveId = sharePointUploadParameters.DriveId;
+                itemPath = Path.Combine(sharePointUploadParameters.CloudPath, sharePointUploadParameters.CloudFileName);
+                stream = sharePointUploadParameters.UploadStream;
             }
 
-            var response = await client
-                .RequestAdapter
-                .SendAsync<DriveItem>(requestInfo, DriveItem.CreateFromDiscriminatorValue, cancellationToken: default);
+            _ = await client
+                    .Drives[driveId]
+                    .Items["root"]
+                    .ItemWithPath(itemPath)
+                    .Content
+                    .PutAsync(stream);
         }
 
         /// <summary>
@@ -179,7 +178,8 @@ namespace combit.Reporting.CloudStorage
                 throw new InvalidOperationException("Missing required upload parameter instance.");
             }
 
-            UploadSession uploadSession = null;
+            string driveId = null;
+            string itemPath = null;
             Stream stream = null;
 
             var uploadRequestBody = new DriveUpload.CreateUploadSessionPostRequestBody
@@ -197,12 +197,8 @@ namespace combit.Reporting.CloudStorage
             {
                 stream = oneDriveUploadParameters.UploadStream;
                 var drive = await client.Me.Drive.GetAsync();
-                uploadSession = await client
-                         .Drives[drive.Id]
-                         .Root
-                         .ItemWithPath(Path.Combine(oneDriveUploadParameters.CloudPath, oneDriveUploadParameters.CloudFileName))
-                         .CreateUploadSession
-                         .PostAsync(uploadRequestBody);
+                driveId = drive.Id;
+                itemPath = Path.Combine(oneDriveUploadParameters.CloudPath, oneDriveUploadParameters.CloudFileName);
             }
 
             if (sharePointUploadParameters != null)
@@ -212,17 +208,20 @@ namespace combit.Reporting.CloudStorage
                 {
                     sharePointUploadParameters.CloudPath = String.Empty;
                 }
-                uploadSession = await client
-                .Drives[sharePointUploadParameters.DriveId]
-                .Root
-                .ItemWithPath(Path.Combine(sharePointUploadParameters.CloudPath, sharePointUploadParameters.CloudFileName))
-                .CreateUploadSession
-                .PostAsync(uploadRequestBody);
+                driveId = sharePointUploadParameters.DriveId;
+                itemPath = Path.Combine(sharePointUploadParameters.CloudPath, sharePointUploadParameters.CloudFileName);
             }
 
+            var uploadSession = await client
+                     .Drives[driveId]
+                     .Items["root"]
+                     .ItemWithPath(itemPath)
+                     .CreateUploadSession
+                     .PostAsync(uploadRequestBody);
 
             int maxSliceSize = 320 * 1024; // 320 KB - Change this to your chunk size. 5MB is the default.
-            var fileUploadTask = new LargeFileUploadTask<DriveItem>(uploadSession, stream, maxSliceSize);
+
+            var fileUploadTask = new LargeFileUploadTask<DriveItem>(uploadSession, stream, maxSliceSize, client.RequestAdapter);
 
             _ = await fileUploadTask.UploadAsync();
         }
@@ -248,7 +247,7 @@ namespace combit.Reporting.CloudStorage
         /// <returns>An InteractiveBrowserCredential to use as TokenCredential</returns>
         private static async Task<InteractiveBrowserCredential> GetCredentialInteractive(MicrosoftCredentials credentials)
         {
-            await Task.CompletedTask; // removes warning for lacking an await operator
+            await Task.CompletedTask;
 
             var options = new InteractiveBrowserCredentialOptions
             {
